@@ -5,7 +5,8 @@ const schema = new mongoose.Schema(
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     start_year: Number,
-    department_id: String
+    department_id: String,
+    role: { type: String, required: true }
   },
   {
     versionKey: false,
