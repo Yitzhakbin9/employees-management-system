@@ -1,0 +1,16 @@
+db.getCollection("employees").insertOne({
+  fullName: "Yitzhak Levi",
+  departmentId: "dep1",
+  shifts: [
+    {
+      date: new Date("2025-01-01"),
+      startTime: "09:00",
+      endTime: "17:00"
+    }
+  ]
+})
+
+
+////////////////////////////////////////
+
+db.getCollection("employees").find({})
