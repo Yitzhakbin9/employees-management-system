@@ -7,19 +7,8 @@ const router = express.Router();
 
 // Entry Point: http://localhost:3000/departments
 
-router.get('/', authenticateToken, async (req, res) => {
-  console.log("req: ",req)
-  try {
-    const queries = req.query;
-    const departments = await departmentService.getAllDepartments(queries);
-    res.send(departments);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// router.get('/', async (req, res) => {
-//   console.log('connected to server')
+// router.get('/', authenticateToken, async (req, res) => {
+//   console.log("req: ",req)
 //   try {
 //     const queries = req.query;
 //     const departments = await departmentService.getAllDepartments(queries);
@@ -28,6 +17,29 @@ router.get('/', authenticateToken, async (req, res) => {
 //     res.status(500).send(error);
 //   }
 // });
+
+router.get('/department-with-employees', async (req, res) => {
+  console.log('connected to server')
+  try {
+    const queries = req.query;
+    const departments = await departmentService.getDepartmentsWithEmployeesData(queries);
+    res.send(departments);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+router.get('/', async (req, res) => {
+  console.log('connected to server')
+  try {
+    const queries = req.query;
+    const departments = await departmentService.getAllDepartments(queries);
+    res.send(departments);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 
 router.get('/:id', async (req, res) => {

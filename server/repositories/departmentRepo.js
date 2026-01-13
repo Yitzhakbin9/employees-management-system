@@ -24,10 +24,29 @@ const deleteDepartment = (id) => {
   return Department.findByIdAndDelete(id);
 };
 
+
+const getDepartmentsWithEmployeesData = () => {
+
+  return Department.aggregate([
+    {
+    $lookup: {
+      from: "employees",
+      localField: "_id",
+      foreignField: "department_id",
+      as: "employees"
+    }
+  }
+  ]);
+};
+
+
+
+
 module.exports = {
   getAllDepartments,
   getDepartmentById,
   addDepartment,
   updateDepartment,
   deleteDepartment,
+  getDepartmentsWithEmployeesData
 };
