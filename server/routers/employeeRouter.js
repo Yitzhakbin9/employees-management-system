@@ -51,7 +51,7 @@ router.get('/full-details', async (req, res) => {
 //   } catch (error) {
 //     res.status(500).send(error);
 //   }
-// });
+// }); 
 
 router.get('/', async (req, res) => {
   try {
@@ -74,12 +74,9 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+
 router.post('/', async (req, res) => {
-
-
-console.log("req:" , req)
-console.log("res:" , res)
-
   try {
     const employeeObj = req.body;
     const newEmployee = await employeeService.addEmployee(employeeObj);

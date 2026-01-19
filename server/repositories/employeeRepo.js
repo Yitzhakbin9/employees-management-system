@@ -25,6 +25,7 @@ const deleteEmployee = (id) => {
 };
 
 
+
 const getEmployeesWithDepartment = () => {
   return Employee.aggregate([
     {
@@ -106,7 +107,6 @@ const getEmployeesWithShifts = async () => {
     }
   ]);
 };
-
 
 
 const getEmployeesWithShiftsAndDepName = async () => {
