@@ -45,13 +45,11 @@ const getDepartmentsWithEmployeesData = () => {
 };
 
 
-
-
 module.exports = {
   getAllDepartments,
   getDepartmentById,
   addDepartment,
   updateDepartment,
   deleteDepartment,
-  getDepartmentsWithEmployeesData
+  getDepartmentsWithEmployeesData,
 };

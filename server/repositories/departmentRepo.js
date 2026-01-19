@@ -26,20 +26,25 @@ const deleteDepartment = (id) => {
 
 
 const getDepartmentsWithEmployeesData = () => {
-
   return Department.aggregate([
     {
-    $lookup: {
-      from: "employees",
-      localField: "_id",
-      foreignField: "department_id",
-      as: "employees"
+      $lookup: {
+        from: "employees",
+        let: { deptId: { $toString: "$_id" } },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$department_id", "$$deptId"]
+              }
+            }
+          }
+        ],
+        as: "employees"
+      }
     }
-  }
   ]);
 };
-
-
 
 
 module.exports = {
@@ -48,5 +53,5 @@ module.exports = {
   addDepartment,
   updateDepartment,
   deleteDepartment,
-  getDepartmentsWithEmployeesData
+  getDepartmentsWithEmployeesData,
 };
