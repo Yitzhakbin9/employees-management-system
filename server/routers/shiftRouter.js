@@ -6,7 +6,6 @@ const router = express.Router();
 // Entry Point: http://localhost:3000/shifts
 
 router.get('/', async (req, res) => {
-  console.log('connected to server')
   try {
     const queries = req.query;
     const shifts = await shiftService.getAllShifts(queries);

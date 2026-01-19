@@ -1,0 +1,26 @@
+[
+    {
+        "_id": "u11111111111111111111111",
+        "full_name": "Dan Cohen",
+        "max_actions": 10,
+        "actions_left_today": 7
+    },
+    {
+        "_id": "u22222222222222222222222",
+        "full_name": "Noa Levi",
+        "max_actions": 15,
+        "actions_left_today": 15
+    },
+    {
+        "_id": "u33333333333333333333333",
+        "full_name": "Omer Israel",
+        "max_actions": 8,
+        "actions_left_today": 3
+    },
+    {
+        "_id": "u44444444444444444444444",
+        "full_name": "Shir Bar",
+        "max_actions": 12,
+        "actions_left_today": 0
+    }
+]

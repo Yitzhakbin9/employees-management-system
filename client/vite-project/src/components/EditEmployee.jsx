@@ -75,7 +75,6 @@ const EditEmployee = () => {
 
 
   const handleSubmit = async (e) => {
-    debugger
     e.preventDefault()
     const updatedEmployee = {
       ...employee,
@@ -94,7 +93,6 @@ const EditEmployee = () => {
 
 
   const handleDepartmentOnChange = (e) => {
-    debugger
     const chosenDep = departments.find(dep => (dep._id === e.target.value))
     setChosenDepartmentID(chosenDep._id)
   }
@@ -114,7 +112,6 @@ const EditEmployee = () => {
   }
 
   const handleDeleteClick = async () => {
-    debugger
     try {
       const { data } = await axios.delete(`${EMPLOYEES_URL}/${id}`);
       console.log(data)

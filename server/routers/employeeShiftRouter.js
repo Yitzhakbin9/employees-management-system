@@ -17,7 +17,6 @@ router.get('/:employeeId/shifts', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
-  console.log('connected to server')
   try {
     const queries = req.query;
     const employeeShifts = await employeeShiftService.getAllEmployeeShifts(queries);

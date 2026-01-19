@@ -4,10 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./configs/db');
 
-const authMiddleware = require('./middlewares/authMiddleware');
-
-
-
+// const authMiddleware = require('./middlewares/authMiddleware');
 
 
 const employeeRouter = require('./routers/employeeRouter');
@@ -20,11 +17,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-
 app.use(express.json());
 
 
-app.use('/auth', authMiddleware);
+// app.use('/auth', authMiddleware);
 
 //////////////
 

@@ -13,7 +13,7 @@ const EditDepartment = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const [department, setDepartment] = useState({ department_name: '', manger_id: '' })
+    const [department, setDepartment] = useState({ department_name: '', manager_id: '' })
     const [departments, setDepartments] = useState([])
     const [employees, setEmployees] = useState([])
     const [employeesCombo, setEmployeesCombo] = useState([])
@@ -22,6 +22,8 @@ const EditDepartment = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("id: ", id)
+
             const { data } = await axios.get(`${DEPARTMENT_URL}/${id}`);
             console.log("department: ", data)
             setDepartment(data);
@@ -33,7 +35,7 @@ const EditDepartment = () => {
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(EMPLOYEES_URL);
-            console.log("employees: ", data)
+            // console.log("employees: ", data)
             setEmployees(data);
         };
         fetchData();
@@ -82,7 +84,7 @@ const EditDepartment = () => {
     }
 
     const handleChosenEmpOnChange = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setSelectedEmployee(e.target.value)
     }
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
-      const URL = 'http://localhost:3000/auth/login';
+const URL = 'http://localhost:3000/auth/login';
 
 
 
@@ -18,36 +18,35 @@ const LogIn = () => {
 
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault()
-        // console.log(user)
-        dispatch({ type: 'USER_NAME', payload: user.name })
-        dispatch({ type: 'ACTIONS', payload: userDetails.actionsLeft })
-        // add logic
-        console.log("afterdispach --> " , userDetails)
+    
+
 
 
         const resp = await fetch(URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(user),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user), 
         });
 
         const data = await resp.json();
+        console.log('data from login:', data);
 
         sessionStorage.token = data.token; // short for: sessionStorage.setItem('token', data.token);
         location.href = './employees.html'; // location.href - מה שמופיע בשורת כתובת בבראוזר
         // לוקחים את מה שכבר מופיע בשורת כתובת ומוסיפים את products.html
-      }
+    }
 
 
-        // if (true) {
-            // add logic if user in the db
-        // }
+    // if (true) {
+    // add logic if user in the db
+    // }
 
 
-        // navigate('/actionsPage')
+    // navigate('/actionsPage')
 
-    
+
 
 
 
@@ -65,11 +64,6 @@ const LogIn = () => {
                 Email: <input onChange={e => setUser({ ...user, email: e.target.value })} type="text" /> <br />
 
                 <br />
-
-
-
-
-
 
                 <button type="submit">Login</button>
             </form>

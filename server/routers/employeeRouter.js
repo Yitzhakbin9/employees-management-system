@@ -39,22 +39,11 @@ router.get('/full-details', async (req, res) => {
 });
 
 
-router.get('/', authenticateToken, async (req, res) => {
-  console.log("req: " , req)
-  console.log("req.user: " , req.user)
+// router.get('/', authenticateToken, async (req, res) => {
+//   console.log("req: " , req)
+//   console.log("req.user: " , req.user)
 
 
-  try {
-    const queries = req.query;
-    const employees = await employeeService.getAllEmployees(queries);
-    res.send(employees);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// router.get('/', async (req, res) => {
-//   console.log('connected to server')
 //   try {
 //     const queries = req.query;
 //     const employees = await employeeService.getAllEmployees(queries);
@@ -63,6 +52,16 @@ router.get('/', authenticateToken, async (req, res) => {
 //     res.status(500).send(error);
 //   }
 // });
+
+router.get('/', async (req, res) => {
+  try {
+    const queries = req.query;
+    const employees = await employeeService.getAllEmployees(queries);
+    res.send(employees);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 
 router.get('/:id', async (req, res) => {
@@ -76,9 +75,17 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+
+
+console.log("req:" , req)
+console.log("res:" , res)
+
   try {
     const employeeObj = req.body;
     const newEmployee = await employeeService.addEmployee(employeeObj);
+  
+    console.log("newEmployee: ", newEmployee)
+  
     res.status(201).send(`The new employee ID: ${newEmployee._id}`);
   } catch (error) {
     res.status(500).send(error);

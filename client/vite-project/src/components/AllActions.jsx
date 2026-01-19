@@ -4,10 +4,6 @@ import UserDetails from './UserDetails';
 
 const AllActions = () => {
 
-
-
-
-
     return (
 
         <div style={{ border: '3px solid #aa3fe0ff' }}>
@@ -20,7 +16,7 @@ const AllActions = () => {
 
             <Link to={"/employees"}>Employees</Link><br />
             <Link to={"/newEmployee"}>New Employee</Link><br />
-            <Link to={"/department"}>Department</Link><br />
+            <Link to={"/departments"}>Department</Link><br />
             <Link to={"/editDepartment"}>Edit Department</Link><br />
             <Link to={"/newDepartment"}>New Department</Link><br />
             <Link to={"/users"}>Users</Link><br />

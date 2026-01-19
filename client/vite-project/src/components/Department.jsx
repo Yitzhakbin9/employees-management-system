@@ -95,7 +95,7 @@ const Department = () => {
 
             <br />
             <br />
-            <button onClick={() => navigate('/employees')}> New Department  </button>
+            <button onClick={() => navigate('/newDepartment')}> New Department  </button>
 
         </div>
     )

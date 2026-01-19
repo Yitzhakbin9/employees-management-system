@@ -19,7 +19,6 @@ const router = express.Router();
 // });
 
 router.get('/department-with-employees', async (req, res) => {
-  console.log('connected to server')
   try {
     const queries = req.query;
     const departments = await departmentService.getDepartmentsWithEmployeesData(queries);
@@ -31,7 +30,6 @@ router.get('/department-with-employees', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
-  console.log('connected to server')
   try {
     const queries = req.query;
     const departments = await departmentService.getAllDepartments(queries);

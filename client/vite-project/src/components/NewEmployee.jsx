@@ -16,7 +16,8 @@ const Employee = () => {
             first_name: '',
             last_name: '',
             start_year: 2000,
-            department_id: ''
+            department_id: '',
+            role: 'employee' // we can only add employee. manager should be added directly in the DB
         })
 
     useEffect(() => {
@@ -32,9 +33,11 @@ const Employee = () => {
         e.preventDefault()
         try {
             const { data } = await axios.post(`${EMPLOYEES_URL}/`, employee);
-            console.log(data)
+            console.log("new employee: ", data)
             alert("Employee added succefully!")
+            navigate('/employees')
         } catch (err) {
+            alert("Failed to add employee, try again later.")
             console.log("Failed to add employee: ", err)
         }
     }
