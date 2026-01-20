@@ -30,6 +30,7 @@ function App() {
         <Route path="/departments" element={<Department />} />
         <Route path="/editDepartment/:id" element={<EditDepartment />} />
         <Route path="/newDepartment" element={<NewDepartment />} />
+        <Route path="/shifts" element={<Shifts />} />
         <Route path="/users" element={<Users />} />
         <Route path="/usersDetails" element={<UserDetails />} />
 

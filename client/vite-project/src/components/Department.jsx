@@ -14,24 +14,17 @@ const Department = () => {
     const navigate = useNavigate();
     const userDetails = useSelector((state) => state.userDetails);
 
-    const [departments, setDepartments] = useState([])
+    const [departmentsFull, setDepartmentsFull] = useState([])
 
 
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(DEPARTMENT_URL);
             console.log("Depratments: ", data)
-            setDepartments(data);
+            setDepartmentsFull(data);
         };
         fetchData();
     }, []);
-
-
-    const handleNewDepClick = () => {
-        // add redirect to “Add Department” Page
-    }
-
-
 
     return (
         <div style={{ border: '3px solid yellow' }}>
@@ -51,7 +44,7 @@ const Department = () => {
 
 
                 <tbody>
-                    {departments.map(dep => {
+                    {departmentsFull.map(dep => {
                         const manager = dep.employees.find(
                             emp => emp._id === dep.manager_id
                         );
@@ -96,7 +89,9 @@ const Department = () => {
             <br />
             <br />
             <button onClick={() => navigate('/newDepartment')}> New Department  </button>
-
+            <br />
+            <br />
+      
         </div>
     )
 }

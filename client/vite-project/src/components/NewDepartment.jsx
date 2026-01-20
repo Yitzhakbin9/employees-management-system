@@ -1,20 +1,30 @@
 import React from 'react'
 import UserDetails from './UserDetails'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const DEPARTMENT_URL = 'http://localhost:3000/departments';
 
 const NewDepartment = () => {
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const [department, setDepartment] = useState({ department_name: '', manager_id: 0})
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        //saving the data in the server
+        try {
+            const { data } = await axios.post(`${DEPARTMENT_URL}/`, department);
+            console.log("new department: ", data)
+            alert("Department added succefully!")
+            navigate('/actionsPage')
+        } catch (err) {
+            alert("Failed to add Department, try again later.")
+            console.log("Failed to add department: ", err)
+        }
     }
-
-
-    const handleCancelClick = () => {
-        //redirecting back to the “Departments” page.
-    }
-
-
 
 
     return (
@@ -22,21 +32,15 @@ const NewDepartment = () => {
             <UserDetails />
             <h1>Add new department</h1>
 
-
             <form onSubmit={handleSubmit}>
-
                 <br />
-                Department Name: <input onChange={e => setUsername(e.target.value)} type="text" /> <br />
-                Manager Name: <input onChange={e => setUsername(e.target.value)} type="text" /> <br />
-
-                <br />
+                Department Name: <input onChange={e => setDepartment({ ...department, department_name: e.target.value })} type="text" /> <br />
+               
                 <button type="submit">Save Department</button>
-                <button onClick={handleCancelClick}>Cancel Depratment</button>
-
-
+                <br />
             </form>
 
-
+            <button onClick={() => navigate('/actionsPage')}>Cancel</button>
 
         </div>
     )

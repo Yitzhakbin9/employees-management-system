@@ -12,18 +12,14 @@ const EditDepartment = () => {
 
     const navigate = useNavigate();
     const { id } = useParams();
-
     const [department, setDepartment] = useState({ department_name: '', manager_id: '' })
-    const [departments, setDepartments] = useState([])
     const [employees, setEmployees] = useState([])
     const [employeesCombo, setEmployeesCombo] = useState([])
     const [selectedEmployee, setSelectedEmployee] = useState([])
-    const [updatedEmployee, setUpdatedEmployee] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
             console.log("id: ", id)
-
             const { data } = await axios.get(`${DEPARTMENT_URL}/${id}`);
             console.log("department: ", data)
             setDepartment(data);
@@ -35,7 +31,7 @@ const EditDepartment = () => {
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(EMPLOYEES_URL);
-            // console.log("employees: ", data)
+            console.log("employees: ", data)
             setEmployees(data);
         };
         fetchData();
@@ -63,7 +59,7 @@ const EditDepartment = () => {
 
     const handleDeleteClick = async () => {
         try {
-            const {data} = await axios.delete(`${DEPARTMENT_URL}/${id}`);
+            const { data } = await axios.delete(`${DEPARTMENT_URL}/${id}`);
             console.log("updated department details: ", data)
             alert("Department updated succefully!")
             navigate('/employees')
@@ -84,7 +80,6 @@ const EditDepartment = () => {
     }
 
     const handleChosenEmpOnChange = (e) => {
-        // console.log(e.target.value)
         setSelectedEmployee(e.target.value)
     }
 
@@ -99,8 +94,6 @@ const EditDepartment = () => {
                 <br />
                 Department ID: <input type="text" value={id} readOnly /><br />
                 Department Name: <input onChange={(e) => setDepartment({ ...department, department_name: e.target.value })} type="text" value={department.department_name} /> <br />
-                Manager Name: <input onChange={(e) => setDepartment({ ...department, manger_id: e.target.value })} type="text" value={department.manger_id} /> <br />
-
 
                 <br />
                 <button type="submit">Update Department</button>
@@ -109,16 +102,16 @@ const EditDepartment = () => {
             <br />
 
 
-
+            Employees from other departments: <br />
             <select onChange={handleChosenEmpOnChange}>
-                <option value="">Employees</option>
+                <option value="">Choose Employee</option>
                 {employeesCombo.map(emp => (
                     <option key={emp._id} value={emp._id}> {emp.first_name} {emp.last_name} </option>
                 ))}
             </select>
             <br />
             <br />
-            Add Selected Employee to this department
+            Assign Employee to this department
             <br />
             <button onClick={handleAddClick}>Add</button>
 
@@ -130,9 +123,6 @@ const EditDepartment = () => {
             <button onClick={handleDeleteClick}>Delete Depratment</button> (Cannot be undone!)
             <br />
             <br />
-
-
-
 
         </div>
     )
