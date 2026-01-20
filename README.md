@@ -1,20 +1,19 @@
-#Factory Management System
+# Factory Management System
 
 A full-stack factory management application built with Node.js, Express, and MongoDB.  
-The system allows managing employees, departments, shifts, and users with authentication, action limits, and role-based data relationships.  
+The system allows managing employees, departments, and shifts with a clear backend architecture.
 
-
-## 🛠 Technologies
+## Technologies
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
 - JWT
 - dotenv
-- React, Node
+- React
 
-## 📂 Project Structure
-
+## Project Structure
+```text
 src/
 ├── routes/
 ├── services/
@@ -24,5 +23,10 @@ src/
 ├── config/
 ├── app.js
 └── index.js
+```
 
-  
+## Running the Application
+```bash
+node index.js
+npm install
+```
