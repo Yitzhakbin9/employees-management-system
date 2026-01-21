@@ -69,35 +69,42 @@ const Shifts = () => {
     return (
         <div style={{ border: '3px solid lightgreen' }}>
             <UserDetails />
-            <h1>Shifts Page</h1>
-         
-            <table border="1" cellPadding="8">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Start</th>
-                        <th>End</th>
-                    </tr>
-                </thead>
+            <h1>Create new shift</h1>
 
-                <tbody>
-                    {shifts.map(shift => (
-                        <tr key={shift._id}>
-                            <td>
-                                {new Date(shift.date).toLocaleDateString()}
-                            </td>
-                            <td>
-                                {shift.starting_hour}
-                            </td>
-                            <td>
-                                {shift.ending_hour}
-                            </td>
-                        </tr>
+            <form onSubmit={handleSubmit}>
+                <br />
+                Starting hour :  <select onChange={(e) => (setNewShift({ ...newShift, starting_hour: e.target.value }))}>
+                    <option>-</option>
+                    {
+                        hoursOptions.map((h) => <option value={h}>{h}</option>)
+                    } </select>
+                <br />
+                Ending hour :  <select onChange={(e) => (setNewShift({ ...newShift, ending_hour: e.target.value }))}>
+                    <option>-</option>
+                    {
+                        hoursOptions.map((h) => <option value={h}>{h}</option>)
+                    } </select>
+
+                <br />
+                Date : <input
+                    type="date"
+                    value={newShift.date}
+                    onChange={(e) => setNewShift({ ...newShift, date: e.target.value })}
+                />
+
+                <br />
+                Employees :   <select onChange={(e) => setChosenEmployee({ id: e.target.value })}>
+                    <option value="">Choose Employee</option>
+                    {employees.map(emp => (
+                        <option key={emp._id} value={emp._id}> {emp.first_name} {emp.last_name} </option>
                     ))}
-                </tbody>
-            </table>
+                </select>
 
-            <br />
+                <br />
+                <br />
+                <button type='submit'>Save</button>
+            </form>
+
             <br />
             <br />
         </div>

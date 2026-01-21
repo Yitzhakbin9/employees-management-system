@@ -19,6 +19,7 @@ const AllActions = () => {
             <Link to={"/departments"}>Departments</Link><br />
             <Link to={"/newDepartment"}>New Department</Link><br />
             <Link to={"/shifts"}>Shifts</Link><br />
+            <Link to={"/newShifts"}>New Shift</Link><br />
             <Link to={"/users"}>Users</Link><br />
 
         </div>

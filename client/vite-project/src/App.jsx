@@ -5,6 +5,7 @@ import Department from './components/Department'
 import EditDepartment from './components/EditDepartment'
 import NewDepartment from './components/NewDepartment'
 import Shifts from './components/Shifts'
+import NewShift from './components/NewShift'
 import Users from './components/Users'
 import LogIn from './components/LogIn'
 import AllActions from './components/AllActions'
@@ -31,6 +32,7 @@ function App() {
         <Route path="/editDepartment/:id" element={<EditDepartment />} />
         <Route path="/newDepartment" element={<NewDepartment />} />
         <Route path="/shifts" element={<Shifts />} />
+        <Route path="/newShifts" element={<NewShift />} />
         <Route path="/users" element={<Users />} />
         <Route path="/usersDetails" element={<UserDetails />} />
 

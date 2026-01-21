@@ -1,31 +1,65 @@
 import React from 'react'
 import UserDetails from './UserDetails'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+
+const USERS_URL = 'http://localhost:3000/users';
+
+
 
 const Users = () => {
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(USERS_URL);
+      console.log("usesrs: ", data)
+      setUsers(data)
+    };
+    fetchData();
+  }, []);
+
+
+
   return (
     <div style={{ border: '3px solid lightblue' }}>
       <UserDetails />
       <h1>Users Page</h1>
-      <table border="1" cellpadding="8">
-        <tr>
-          <th>User Name</th>
-          <th>Maximum action allowed</th>
-          <th>Current action allowed today</th>
-        </tr>
-        <tr>
-          <td>Adam</td>
-          <td>10</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>Sapir</td>
-          <td>10</td>
-          <td>6</td>
-        </tr>
+      <table border="1" cellPadding="8">
+        <thead>
+          <tr>
+            <th>Full name</th>
+            <th>Max actions</th>
+            <th>Actions left today</th>
+          </tr>
+        </thead>
 
+        <tbody>
+          {users.map(user => (
+            <tr key={user._id}>
+              <td>
+                {user.full_name}
+              </td>
+              <td>
+                {user.max_actions}
+              </td>
+              <td>
+                {user.actions_left_today}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-
-
+      <br/>
+      <br/>
     </div>
   )
 }
