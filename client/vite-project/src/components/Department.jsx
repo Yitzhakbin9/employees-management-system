@@ -1,7 +1,7 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import UserDetails from './UserDetails';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ const DEPARTMENT_URL = 'http://localhost:3000/departments/department-with-employ
 
 const Department = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const userDetails = useSelector((state) => state.userDetails);
 
@@ -19,11 +20,15 @@ const Department = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(DEPARTMENT_URL);
+            const token = sessionStorage.token;
+            const { data } = await axios.get(DEPARTMENT_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("Depratments: ", data)
             setDepartmentsFull(data);
         };
         fetchData();
+        dispatch({ type: 'ACTIONS' });
     }, []);
 
     return (
@@ -91,7 +96,7 @@ const Department = () => {
             <button onClick={() => navigate('/newDepartment')}> New Department  </button>
             <br />
             <br />
-      
+
         </div>
     )
 }

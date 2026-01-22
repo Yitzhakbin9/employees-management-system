@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
 import UserDetails from './UserDetails';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,6 +10,7 @@ const EMPLOYEES_URL = 'http://localhost:3000/employees';
 
 const EditDepartment = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
     const [department, setDepartment] = useState({ department_name: '', manager_id: '' })
@@ -49,6 +50,7 @@ const EditDepartment = () => {
         try {
             const { data } = await axios.put(`${DEPARTMENT_URL}/${id}`, department);
             console.log("updated department details: ", department)
+            dispatch({ type: 'ACTIONS' });
             alert("Department updated succefully!")
         } catch (err) {
             alert("Failure")
@@ -72,6 +74,7 @@ const EditDepartment = () => {
     const handleAddClick = async () => {
         try {
             const { data } = await axios.put(`${EMPLOYEES_URL}/${selectedEmployee}`, { department_id: id });
+            dispatch({ type: 'ACTIONS' });
             alert("Employee updated succefully!")
         } catch (err) {
             alert("Failure")

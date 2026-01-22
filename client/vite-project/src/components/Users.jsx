@@ -20,11 +20,16 @@ const Users = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(USERS_URL);
+      const token = sessionStorage.token;
+
+      const { data } = await axios.get(USERS_URL, {
+        headers: { 'x-access-token': token },
+      });
       console.log("usesrs: ", data)
       setUsers(data)
     };
     fetchData();
+    dispatch({ type: 'ACTIONS' });
   }, []);
 
 
@@ -58,8 +63,8 @@ const Users = () => {
           ))}
         </tbody>
       </table>
-      <br/>
-      <br/>
+      <br />
+      <br />
     </div>
   )
 }

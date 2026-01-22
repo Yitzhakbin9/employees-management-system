@@ -33,6 +33,8 @@ const UserDetails = () => {
 
       <br />
       <br />
+      <button onClick={() => navigate('/actionsPage')}>Home page</button>
+      <br />
       <button onClick={handleClick}>Log out</button>
     </div>
   )

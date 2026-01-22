@@ -1,7 +1,9 @@
 const express = require('express');
 const shiftService = require('../services/shiftService');
+const authenticateToken = require('../middlewares/authMiddleware');
 
 const router = express.Router();
+router.use(authenticateToken);
 
 // Entry Point: http://localhost:3000/shifts
 

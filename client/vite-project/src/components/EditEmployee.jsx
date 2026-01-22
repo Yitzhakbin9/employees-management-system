@@ -1,6 +1,7 @@
 import UserDetails from "./UserDetails"
 import { useState, useEffect } from 'react';
-import { useParams , useNavigate} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const EMPLOYEES_URL = 'http://localhost:3000/employees';
@@ -11,6 +12,7 @@ const EMPLOYEES_SHIFTS_BY_ID_URL = 'http://localhost:3000/employeeShifts';
 
 const EditEmployee = () => {
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const [employee, setEmployee] = useState(
@@ -62,7 +64,7 @@ const EditEmployee = () => {
     const fetchData = async () => {
       const { data } = await axios.get(`${EMPLOYEES_SHIFTS_BY_ID_URL}/${id}/shifts`);
       setEmployeeShifts(data);
-    }; 
+    };
     fetchData();
   }, [employeeShifts]);
 
@@ -83,6 +85,7 @@ const EditEmployee = () => {
 
     try {
       const { data } = await axios.put(`${EMPLOYEES_URL}/${id}`, updatedEmployee);
+      dispatch({ type: 'ACTIONS' });
       alert("Employee updated succefully!")
     } catch (err) {
       alert("Failure")
@@ -108,6 +111,7 @@ const EditEmployee = () => {
 
   const handleRegisterClick = async () => {
     const { data } = await axios.post(EMPLOYEE_SHIFTS, { employee_id: id, shift_id: selectedShift._id });
+    dispatch({ type: 'ACTIONS' });
     alert("Employee added succefully!")
   }
 

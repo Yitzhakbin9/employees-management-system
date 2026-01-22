@@ -1,6 +1,7 @@
 import React from 'react'
 import UserDetails from './UserDetails'
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 
@@ -13,6 +14,8 @@ const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:
     "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
 
 const Shifts = () => {
+
+    const dispatch = useDispatch();
 
     const [shifts, setShifts] = useState([])
     const [newShift, setNewShift] = useState({ starting_hour: "", ending_hour: "", date: new Date() })
@@ -37,6 +40,7 @@ const Shifts = () => {
             setShifts(data)
         };
         fetchData();
+        dispatch({ type: 'ACTIONS' });
     }, []);
 
 
@@ -58,6 +62,7 @@ const Shifts = () => {
             const { data: employeeShiftData } = await axios.post(`${EMPLOYEE_SHIFTS_URL}/`, employeeShift);
             console.log("new employee shift: ", employeeShiftData)
 
+            dispatch({ type: 'ACTIONS' });
             alert("Shift added succefully!")
         } catch (err) {
             alert("Failed to add new shift, try again later.")

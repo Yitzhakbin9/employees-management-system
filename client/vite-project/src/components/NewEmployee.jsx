@@ -1,6 +1,7 @@
 import UserDetails from "./UserDetails"
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 const EMPLOYEES_URL = 'http://localhost:3000/employees';
@@ -9,6 +10,7 @@ const DEPARTMENT_URL = 'http://localhost:3000/departments';
 
 
 const Employee = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [departments, setDepartments] = useState([])
     const [employee, setEmployee] = useState(
@@ -34,6 +36,7 @@ const Employee = () => {
         try {
             const { data } = await axios.post(`${EMPLOYEES_URL}/`, employee);
             console.log("new employee: ", data)
+            dispatch({ type: 'ACTIONS' });
             alert("Employee added succefully!")
             navigate('/employees')
         } catch (err) {

@@ -1,12 +1,11 @@
 import React from 'react'
 import UserDetails from './UserDetails'
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 
 const SHIFTS_URL = 'http://localhost:3000/shifts';
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
-const EMPLOYEE_SHIFTS_URL = 'http://localhost:3000/employeeShifts';
 
 
 const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
@@ -14,63 +13,32 @@ const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:
 
 const Shifts = () => {
 
+    const dispatch = useDispatch();
     const [shifts, setShifts] = useState([])
-    const [newShift, setNewShift] = useState({ starting_hour: "", ending_hour: "", date: new Date() })
-    const [employees, setEmployees] = useState([])
-    const [chosenEmployee, setChosenEmployee] = useState({ id: '' })
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEES_URL);
-            console.log("employees: ", data)
-            setEmployees(data);
-        };
-        fetchData();
-    }, []);
+            
+            const token = sessionStorage.token; 
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await axios.get(SHIFTS_URL);
+            const { data } = await axios.get(SHIFTS_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("shifts: ", data)
             setShifts(data)
         };
         fetchData();
+        dispatch({ type: 'ACTIONS' });
+
     }, []);
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        debugger
-        try {
-            const { data } = await axios.post(`${SHIFTS_URL}/`, newShift);
-            console.log("new shift: ", data)
-            const id = data.split(": ")[1];
-            setShifts([...shifts, newShift]);
-            setNewShift({ starting_hour: "", ending_hour: "", date: new Date() })
-
-            const employeeShift = {
-                "employee_id": chosenEmployee.id,
-                "shift_id": id
-            }
-
-            const { data: employeeShiftData } = await axios.post(`${EMPLOYEE_SHIFTS_URL}/`, employeeShift);
-            console.log("new employee shift: ", employeeShiftData)
-
-            alert("Shift added succefully!")
-        } catch (err) {
-            alert("Failed to add new shift, try again later.")
-            console.log("Failed to add shift: ", err)
-        }
-    }
 
 
     return (
         <div style={{ border: '3px solid lightgreen' }}>
             <UserDetails />
             <h1>Shifts Page</h1>
-         
+
             <table border="1" cellPadding="8">
                 <thead>
                     <tr>

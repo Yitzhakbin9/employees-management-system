@@ -1,14 +1,13 @@
 const express = require('express');
 const employeeService = require('../services/employeeService');
 const authenticateToken = require('../middlewares/authMiddleware');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+router.use(authenticateToken);
 
 // Entry Point: http://localhost:3000/employees
 
 
-router.use(authenticateToken);
 
 // Specific router ALLWAYS comes first, because if we put get/id first, node will 
 // try it and fail (it will put 'with-department' as an id and wont find it)
