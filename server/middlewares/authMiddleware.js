@@ -1,14 +1,13 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = process.env.SECRET_KEY || 'some_key';
 
-console.log("SECRET_KEY : " , SECRET_KEY)
-
+const SECRET_KEY = process.env.SECRET_KEY
 
 const authenticateToken = (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (!token) {
+    console.log("No token provided");
     return res.status(401).json('No token provided');
   }
 
@@ -19,7 +18,7 @@ const authenticateToken = (req, res, next) => {
 
     // שומרים את המידע על המשתמש לבקשה
     req.user = decoded;
-
+    console.log("Decoded token data: ", decoded);
     next(); // ממשיך לראוטר
   });
 };
