@@ -14,9 +14,6 @@ const Employees = () => {
     const userDetails = useSelector((state) => state.userDetails);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const reduceAcion =         dispatch({ type: 'ACTIONS' });
-
-    /// TEST
 
     const [employees, setEmployees] = useState([])
     const [filteredByDep, setFilteredByDep] = useState([])
@@ -27,7 +24,6 @@ const Employees = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            debugger
             const token = sessionStorage.token; // short for: const token = sessionStorage.getItem(token);
 
             const { data } = await axios.get(EMPLOYEE_DETAILS_URL, {
@@ -39,8 +35,7 @@ const Employees = () => {
             setFilteredByDep(data)
         };
         fetchData();
-
-        // dispatch({ type: 'ACTIONS' });
+        dispatch({ type: 'ACTIONS' });
     }, []);
 
     useEffect(() => {

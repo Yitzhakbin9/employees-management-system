@@ -1,15 +1,24 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UserDetails = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
-  const handleClick = () => {
+  const handleClick = async () => {
 
+    const resp = await fetch('http://localhost:3000/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    sessionStorage.removeItem('token');
+    dispatch({ type: 'LOGOUT' });
     navigate('/login')
   }
 
@@ -24,7 +33,7 @@ const UserDetails = () => {
 
       <br />
       <br />
-      <button onClick={handleClick}>log out</button>
+      <button onClick={handleClick}>Log out</button>
     </div>
   )
 }

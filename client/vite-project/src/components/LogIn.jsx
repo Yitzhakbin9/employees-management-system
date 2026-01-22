@@ -2,46 +2,38 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-
 const URL = 'http://localhost:3000/auth/login';
-
-
 
 const LogIn = () => {
 
     const userDetails = useSelector((state) => state.userDetails);
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
     const [user, setUser] = useState({ username: '', email: '' })
 
 
     const handleSubmit = async (e) => {
-
         e.preventDefault()
+        try {
 
-debugger
+            const resp = await fetch(URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user),
+            });
 
-        const resp = await fetch(URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user),
-        });
+            const data = await resp.json();
+            console.log('data from login:', data);
+            sessionStorage.token = data.token; // short for: sessionStorage.setItem('token', data.token);
+            navigate('/actionsPage');
 
-        const data = await resp.json();
-
-        console.log('data from login:', data);
-
-        sessionStorage.token = data.token; // short for: sessionStorage.setItem('token', data.token);
-      
-        navigate('/employees');
-
-
+        } catch (error) {
+            alert('Invalid credentials, please try again.');
+            console.error('Login failed:', error);
+        }
     }
 
-
     return (
-
 
         <div style={{ border: '3px solid Crimson' }}>
 
@@ -58,11 +50,7 @@ debugger
             </form>
 
 
-
         </div>
-
-
-
     )
 }
 
