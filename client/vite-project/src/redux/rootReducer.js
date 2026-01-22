@@ -1,5 +1,5 @@
 const initialState = {
-  userDetails: { name: '', actionsLeft: 10 },
+  userDetails: { name: 'initial name', actionsLeft: 100 },
 };
 
 const userDetailsReducer = (state = initialState, action) => {

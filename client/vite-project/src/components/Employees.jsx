@@ -14,6 +14,8 @@ const Employees = () => {
     const userDetails = useSelector((state) => state.userDetails);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // const reduceAcion =         dispatch({ type: 'ACTIONS' });
+
 
     const [employees, setEmployees] = useState([])
     const [filteredByDep, setFilteredByDep] = useState([])
@@ -23,19 +25,27 @@ const Employees = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEE_DETAILS_URL);
-            console.log("Employees: " , data)
+
+            debugger
+            const token = sessionStorage.token; // short for: const token = sessionStorage.getItem(token);
+
+            const { data } = await axios.get(EMPLOYEE_DETAILS_URL, {
+                headers: { 'x-access-token': token },
+            });
+            console.log("Employees: ", data)
 
             setEmployees(data)
             setFilteredByDep(data)
         };
         fetchData();
+
+        // dispatch({ type: 'ACTIONS' });
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(DEPARTMENT_URL);
-            console.log("Depratments: " , data)
+            console.log("Depratments: ", data)
             setDepartments(data);
         };
         fetchData();
@@ -69,18 +79,18 @@ const Employees = () => {
                             <td>
                                 <Link to={`/editEmployee/${emp._id}`}>{`${emp.first_name} ${emp.last_name}`} </Link>
                             </td>
-                           
+
 
                             <td>
                                 <Link to={`/editDepartment/${emp.department_id}`}>{emp.department?.department_name} </Link>
                             </td>
-                           
-                           
+
+
                             <td>
                                 <ul>
                                     {emp.shifts?.map(shift => (
                                         <li key={shift._id}>
-                                            { `${ new Date(shift.date).toLocaleDateString('he-IL')} :  ${shift.starting_hour} - ${shift.ending_hour}`}
+                                            {`${new Date(shift.date).toLocaleDateString('he-IL')} :  ${shift.starting_hour} - ${shift.ending_hour}`}
                                         </li>
                                     ))}
                                 </ul>
