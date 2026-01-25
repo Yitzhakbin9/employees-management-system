@@ -14,6 +14,7 @@ const EditEmployee = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = sessionStorage.token;
   const { id } = useParams();
   const [employee, setEmployee] = useState(
     {
@@ -35,7 +36,9 @@ const EditEmployee = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      const { data } = await axios.get(`${EMPLOYEES_URL}/${id}`);
+      const { data } = await axios.get(`${EMPLOYEES_URL}/${id}`, {
+        headers: { 'x-access-token': token },
+      });
       setEmployee(data)
     };
 
@@ -45,7 +48,9 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(DEPARTMENT_URL);
+      const { data } = await axios.get(DEPARTMENT_URL, {
+        headers: { 'x-access-token': token },
+      });
       setDepartments(data);
     };
     fetchData();
@@ -54,7 +59,9 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(SHIFTS_URL);
+      const { data } = await axios.get(SHIFTS_URL, {
+        headers: { 'x-access-token': token },
+      });
       setShiftsCombo(data);
     };
     fetchData();
@@ -62,7 +69,9 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`${EMPLOYEES_SHIFTS_BY_ID_URL}/${id}/shifts`);
+      const { data } = await axios.get(`${EMPLOYEES_SHIFTS_BY_ID_URL}/${id}/shifts`, {
+        headers: { 'x-access-token': token },
+      });
       setEmployeeShifts(data);
     };
     fetchData();
@@ -84,7 +93,9 @@ const EditEmployee = () => {
     }; // if the user didn't change the department, we send the original department
 
     try {
-      const { data } = await axios.put(`${EMPLOYEES_URL}/${id}`, updatedEmployee);
+      const { data } = await axios.put(`${EMPLOYEES_URL}/${id}`, updatedEmployee, {
+        headers: { 'x-access-token': token },
+      });
       dispatch({ type: 'ACTIONS' });
       alert("Employee updated succefully!")
     } catch (err) {
@@ -110,14 +121,18 @@ const EditEmployee = () => {
   }
 
   const handleRegisterClick = async () => {
-    const { data } = await axios.post(EMPLOYEE_SHIFTS, { employee_id: id, shift_id: selectedShift._id });
+    const { data } = await axios.post(EMPLOYEE_SHIFTS, { employee_id: id, shift_id: selectedShift._id }, {
+      headers: { 'x-access-token': token },
+    });
     dispatch({ type: 'ACTIONS' });
     alert("Employee added succefully!")
   }
 
   const handleDeleteClick = async () => {
     try {
-      const { data } = await axios.delete(`${EMPLOYEES_URL}/${id}`);
+      const { data } = await axios.delete(`${EMPLOYEES_URL}/${id}`, {
+        headers: { 'x-access-token': token },
+      });
       console.log(data)
       alert("Employee deleted succefully!")
       navigate('/employees')

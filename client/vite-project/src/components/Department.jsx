@@ -14,13 +14,13 @@ const Department = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userDetails = useSelector((state) => state.userDetails);
+    const token = sessionStorage.token;
 
     const [departmentsFull, setDepartmentsFull] = useState([])
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = sessionStorage.token;
             const { data } = await axios.get(DEPARTMENT_URL, {
                 headers: { 'x-access-token': token },
             });

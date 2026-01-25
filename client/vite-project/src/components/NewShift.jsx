@@ -16,6 +16,7 @@ const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:
 const Shifts = () => {
 
     const dispatch = useDispatch();
+    const token = sessionStorage.token;
 
     const [shifts, setShifts] = useState([])
     const [newShift, setNewShift] = useState({ starting_hour: "", ending_hour: "", date: new Date() })
@@ -25,7 +26,9 @@ const Shifts = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEES_URL);
+            const { data } = await axios.get(EMPLOYEES_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("employees: ", data)
             setEmployees(data);
         };
@@ -35,7 +38,9 @@ const Shifts = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(SHIFTS_URL);
+            const { data } = await axios.get(SHIFTS_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("shifts: ", data)
             setShifts(data)
         };
@@ -46,9 +51,10 @@ const Shifts = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        debugger
         try {
-            const { data } = await axios.post(`${SHIFTS_URL}/`, newShift);
+            const { data } = await axios.post(`${SHIFTS_URL}/`, newShift, {
+                headers: { 'x-access-token': token },
+            });
             console.log("new shift: ", data)
             const id = data.split(": ")[1];
             setShifts([...shifts, newShift]);
@@ -59,7 +65,9 @@ const Shifts = () => {
                 "shift_id": id
             }
 
-            const { data: employeeShiftData } = await axios.post(`${EMPLOYEE_SHIFTS_URL}/`, employeeShift);
+            const { data: employeeShiftData } = await axios.post(`${EMPLOYEE_SHIFTS_URL}/`, employeeShift, {
+                headers: { 'x-access-token': token },
+            });
             console.log("new employee shift: ", employeeShiftData)
 
             dispatch({ type: 'ACTIONS' });

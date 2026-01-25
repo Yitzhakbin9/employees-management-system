@@ -15,13 +15,12 @@ const Users = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = sessionStorage.token;
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = sessionStorage.token;
-
       const { data } = await axios.get(USERS_URL, {
         headers: { 'x-access-token': token },
       });

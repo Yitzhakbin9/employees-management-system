@@ -12,6 +12,8 @@ const DEPARTMENT_URL = 'http://localhost:3000/departments';
 const Employee = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = sessionStorage.token;
+
     const [departments, setDepartments] = useState([])
     const [employee, setEmployee] = useState(
         {
@@ -24,7 +26,9 @@ const Employee = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(DEPARTMENT_URL);
+            const { data } = await axios.get(DEPARTMENT_URL, {
+                headers: { 'x-access-token': token },
+            });
             setDepartments(data);
         };
         fetchData();
@@ -34,7 +38,9 @@ const Employee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${EMPLOYEES_URL}/`, employee);
+            const { data } = await axios.post(`${EMPLOYEES_URL}/`, employee, {
+                headers: { 'x-access-token': token },
+            });
             console.log("new employee: ", data)
             dispatch({ type: 'ACTIONS' });
             alert("Employee added succefully!")

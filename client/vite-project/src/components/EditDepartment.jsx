@@ -13,6 +13,7 @@ const EditDepartment = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
+    const token = sessionStorage.token;
     const [department, setDepartment] = useState({ department_name: '', manager_id: '' })
     const [employees, setEmployees] = useState([])
     const [employeesCombo, setEmployeesCombo] = useState([])
@@ -21,7 +22,9 @@ const EditDepartment = () => {
     useEffect(() => {
         const fetchData = async () => {
             console.log("id: ", id)
-            const { data } = await axios.get(`${DEPARTMENT_URL}/${id}`);
+            const { data } = await axios.get(`${DEPARTMENT_URL}/${id}`, {
+                headers: { 'x-access-token': token },
+            });
             console.log("department: ", data)
             setDepartment(data);
         };
@@ -31,7 +34,9 @@ const EditDepartment = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEES_URL);
+            const { data } = await axios.get(EMPLOYEES_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("employees: ", data)
             setEmployees(data);
         };
@@ -48,7 +53,9 @@ const EditDepartment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.put(`${DEPARTMENT_URL}/${id}`, department);
+            const { data } = await axios.put(`${DEPARTMENT_URL}/${id}`, department, {
+                headers: { 'x-access-token': token },
+            });
             console.log("updated department details: ", department)
             dispatch({ type: 'ACTIONS' });
             alert("Department updated succefully!")
@@ -61,7 +68,9 @@ const EditDepartment = () => {
 
     const handleDeleteClick = async () => {
         try {
-            const { data } = await axios.delete(`${DEPARTMENT_URL}/${id}`);
+            const { data } = await axios.delete(`${DEPARTMENT_URL}/${id}`, {
+                headers: { 'x-access-token': token },
+            });
             console.log("updated department details: ", data)
             alert("Department updated succefully!")
             navigate('/employees')
@@ -73,7 +82,9 @@ const EditDepartment = () => {
 
     const handleAddClick = async () => {
         try {
-            const { data } = await axios.put(`${EMPLOYEES_URL}/${selectedEmployee}`, { department_id: id });
+            const { data } = await axios.put(`${EMPLOYEES_URL}/${selectedEmployee}`, { department_id: id }, {
+                headers: { 'x-access-token': token },
+            });
             dispatch({ type: 'ACTIONS' });
             alert("Employee updated succefully!")
         } catch (err) {

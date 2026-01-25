@@ -12,13 +12,15 @@ const NewDepartment = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [department, setDepartment] = useState({ department_name: '', manager_id: 0 })
+    const token = sessionStorage.token;
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         try {
-            const { data } = await axios.post(`${DEPARTMENT_URL}/`, department);
+            const { data } = await axios.post(`${DEPARTMENT_URL}/`, department, {
+                headers: { 'x-access-token': token },
+            });
             console.log("new department: ", data)
             alert("Department added succefully!")
             dispatch({ type: 'ACTIONS' });

@@ -15,13 +15,11 @@ const Shifts = () => {
 
     const dispatch = useDispatch();
     const [shifts, setShifts] = useState([])
+    const token = sessionStorage.token;
 
 
     useEffect(() => {
         const fetchData = async () => {
-            
-            const token = sessionStorage.token; 
-
             const { data } = await axios.get(SHIFTS_URL, {
                 headers: { 'x-access-token': token },
             });

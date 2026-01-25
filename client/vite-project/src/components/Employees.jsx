@@ -39,8 +39,12 @@ const Employees = () => {
     }, []);
 
     useEffect(() => {
+
         const fetchData = async () => {
-            const { data } = await axios.get(DEPARTMENT_URL);
+            const token = sessionStorage.token;
+            const { data } = await axios.get(DEPARTMENT_URL, {
+                headers: { 'x-access-token': token },
+            });
             console.log("Depratments: ", data)
             setDepartments(data);
         };

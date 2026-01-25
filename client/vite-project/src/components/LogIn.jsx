@@ -15,7 +15,6 @@ const LogIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-
             const resp = await fetch(URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
