@@ -25,8 +25,55 @@ src/
 └── index.js
 ```
 
-## Running the Application
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm
+- MongoDB (local installation or MongoDB Atlas account)
+
+
+
+## Database Setup
+
+This project requires a running MongoDB instance.
+
+
+1. Install MongoDB on your machine
+2. Start MongoDB service
+3. The default connection string:
+   mongodb://localhost:27017
+
+
+## Environment Variables
+
+Create a `.env` file in the root directory based on `.env.example`:
+
 ```bash
-node index.js
-npm install
+cp .env.example .env
 ```
+
+
+## How to Run
+```bash
+# Clone the repository
+git clone https://github.com/Yitzhakbin9/employees-management-system.git
+
+# Install dependencies
+npm install
+
+# Run backend
+node index.js
+
+# Run frontend
+npm run dev
+```
+
+Project is actively under development.
+
+
+## To Do
+```bash
+- Add log file for users actions
+```
+
