@@ -36,7 +36,7 @@ const Users = () => {
   return (
     <div style={{ border: '3px solid lightblue' }}>
       <UserDetails />
-      <h1>Users Page</h1>
+      <h1>Users Page (Managers)</h1>
       <table border="1" cellPadding="8">
         <thead>
           <tr>

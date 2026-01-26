@@ -25,6 +25,7 @@ const LogIn = () => {
             const data = await resp.json();
             console.log('data from login:', data);
             sessionStorage.token = data.token; // short for: sessionStorage.setItem('token', data.token);
+            dispatch({ type: 'USER_NAME', payload: user.username });
             navigate('/actionsPage');
 
         } catch (error) {

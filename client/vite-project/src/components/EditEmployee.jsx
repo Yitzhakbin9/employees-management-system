@@ -98,6 +98,7 @@ const EditEmployee = () => {
       });
       dispatch({ type: 'ACTIONS' });
       alert("Employee updated succefully!")
+      navigate('/employees')
     } catch (err) {
       alert("Failure")
       console.log("Failed to updated: ", err)

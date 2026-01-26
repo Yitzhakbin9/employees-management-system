@@ -59,6 +59,7 @@ const EditDepartment = () => {
             console.log("updated department details: ", department)
             dispatch({ type: 'ACTIONS' });
             alert("Department updated succefully!")
+            navigate('/departments')
         } catch (err) {
             alert("Failure")
             console.log("Failed to updated: ", err)
@@ -87,6 +88,7 @@ const EditDepartment = () => {
             });
             dispatch({ type: 'ACTIONS' });
             alert("Employee updated succefully!")
+            navigate('/departments')
         } catch (err) {
             alert("Failure")
             console.log("Failed to updated: ", err)
