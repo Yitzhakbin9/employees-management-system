@@ -10,19 +10,17 @@ import Users from './components/Users'
 import LogIn from './components/LogIn'
 import AllActions from './components/AllActions'
 import UserDetails from './components/UserDetails'
-// import Test from './components/Test'
-import { Route, Routes } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 
 
 function App() {
 
   return (
 
-
     <div style={{ border: '3px solid grey' }}>
 
       <Routes>
-
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/actionsPage" element={<AllActions />} />
         <Route path="/employees" element={<Employees />} />
@@ -35,22 +33,9 @@ function App() {
         <Route path="/newShifts" element={<NewShift />} />
         <Route path="/users" element={<Users />} />
         <Route path="/usersDetails" element={<UserDetails />} />
-
       </Routes>
 
-      {/* <Test/> */}
-
-      {/* <LogIn/> */}
-      {/* <Employees/> */}
-      {/* <Employee/> */}
-      {/* <NewEmployee/> */}
-      {/* <Department /> */}
-      {/* <EditDepartment /> */}
-      {/* <NewDepartment /> */}
-      {/* <Shifts /> */}
-      {/* <Users /> */}
     </div>
-
 
   )
 }
