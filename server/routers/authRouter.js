@@ -2,6 +2,10 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+const jf = require('jsonfile');
+
+const FILE = 'usersActions.json';
+
 
 // Entry Point: http://localhost:3000/auth
 
