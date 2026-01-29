@@ -2,6 +2,7 @@
 
 A full-stack factory management application built with Node.js, Express, and MongoDB.  
 The system allows managing employees, departments, and shifts with a clear backend architecture.
+(Project is actively under development)
 
 ## Technologies
 - Node.js
@@ -69,7 +70,6 @@ node index.js
 npm run dev
 ```
 
-Project is actively under development.
 
 
 ## To Do
