@@ -1,6 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Paper, Typography, Button, Box, Chip } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 
 const UserDetails = () => {
   const userDetails = useSelector((state) => state.userDetails);
@@ -25,18 +29,54 @@ const UserDetails = () => {
 
 
   return (
-    <div style={{ border: '3px solid #FF4500', borderRadius: '10px' }}>
-      <h3>User Details:</h3>
+    <Paper
+      elevation={2}
+      sx={{
+        p: 2,
+        mb: 3,
+        borderRadius: 2,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white'
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <PersonIcon sx={{ mr: 1 }} />
+        <Typography variant="h6">User Details</Typography>
+      </Box>
 
-      Name: {userDetails.name}<br />
-      You have {userDetails.actionsLeft} actions left!
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          <strong>Name:</strong> {userDetails.name}
+        </Typography>
+        <Chip
+          label={`${userDetails.actionsLeft} actions left`}
+          color="warning"
+          size="small"
+          sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white', fontWeight: 'bold' }}
+        />
+      </Box>
 
-      <br />
-      <br />
-      <button onClick={() => navigate('/actionsPage')}>Home page</button>
-      <br />
-      <button onClick={handleClick}>Log out</button>
-    </div>
+      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => navigate('/actionsPage')}
+          startIcon={<HomeIcon />}
+          sx={{ bgcolor: 'rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }}
+        >
+          Home
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleClick}
+          startIcon={<LogoutIcon />}
+          sx={{ bgcolor: 'rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }}
+        >
+          Logout
+        </Button>
+      </Box>
+    </Paper>
   )
 }
 

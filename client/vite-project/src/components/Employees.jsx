@@ -3,6 +3,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import UserDetails from "./UserDetails"
 import axios from 'axios';
+import {
+    Container,
+    Paper,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    List,
+    ListItem,
+    ListItemText
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const EMPLOYEE_DETAILS_URL = 'http://localhost:3000/employees/full-details';
@@ -24,7 +45,7 @@ const Employees = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            const token = sessionStorage.token; // short for: const token = sessionStorage.getItem(token);
+            const token = sessionStorage.token;
 
             const { data } = await axios.get(EMPLOYEE_DETAILS_URL, {
                 headers: { 'x-access-token': token },
@@ -60,68 +81,113 @@ const Employees = () => {
     }, [department]);
 
     return (
-        <div>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
             <UserDetails />
-            <h1>Employees Page</h1>
 
-            <table border="1" cellPadding="8">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Department</th>
-                        <th>Shifts</th>
-                    </tr>
-                </thead>
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Employees
+                </Typography>
 
-                <tbody>
-                    {filteredByDep.map(emp => (
-                        <tr key={emp._id}>
-                            <td>
-                                <Link to={`/editEmployee/${emp._id}`}>{`${emp.first_name} ${emp.last_name}`} </Link>
-                            </td>
+                <Box sx={{ mb: 3 }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        onClick={() => navigate('/newEmployee')}
+                    >
+                        Add New Employee
+                    </Button>
+                </Box>
 
+                <Box sx={{ mb: 3, maxWidth: 300 }}>
+                    <FormControl fullWidth>
+                        <InputLabel>Filter by Department</InputLabel>
+                        <Select
+                            value={department}
+                            label="Filter by Department"
+                            onChange={e => setDepartment(e.target.value)}
+                        >
+                            <MenuItem value="">All Departments</MenuItem>
+                            {departments.map((dep) => (
+                                <MenuItem key={dep._id} value={dep.department_name}>
+                                    {dep.department_name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                            <td>
-                                <Link to={`/editDepartment/${emp.department_id}`}>{emp.department?.department_name} </Link>
-                            </td>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{ bgcolor: 'primary.main' }}>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Full Name</TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Department</TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Shifts</TableCell>
+                            </TableRow>
+                        </TableHead>
 
+                        <TableBody>
+                            {filteredByDep.map((emp, index) => (
+                                <TableRow
+                                    key={emp._id}
+                                    sx={{
+                                        '&:nth-of-type(odd)': { bgcolor: 'action.hover' },
+                                        '&:hover': { bgcolor: 'action.selected' }
+                                    }}
+                                >
+                                    <TableCell>
+                                        <Link
+                                            to={`/editEmployee/${emp._id}`}
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: '#1976d2',
+                                                fontWeight: 500
+                                            }}
+                                        >
+                                            {`${emp.first_name} ${emp.last_name}`}
+                                        </Link>
+                                    </TableCell>
 
-                            <td>
-                                <ul>
-                                    {emp.shifts?.map(shift => (
-                                        <li key={shift._id}>
-                                            {`${new Date(shift.date).toLocaleDateString('he-IL')} :  ${shift.starting_hour} - ${shift.ending_hour}`}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <br />
-            <br />
-            <br />
+                                    <TableCell>
+                                        <Link
+                                            to={`/editDepartment/${emp.department_id}`}
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: '#1976d2',
+                                                fontWeight: 500
+                                            }}
+                                        >
+                                            {emp.department?.department_name}
+                                        </Link>
+                                    </TableCell>
 
-
-            <button onClick={() => navigate('/newEmployee')}>Add New Employee</button>
-            <br />
-            <br />
-            <br />
-
-
-            <select onChange={e => setDepartment(e.target.value)} defaultValue="" name="department" id="department">
-                <option value="Choose department">Choose department</option>
-                {
-                    departments.map((dep) => <option value={dep.department_name}>{dep.department_name}</option>)
-                }
-            </select>
-
-
-            <br />
-            <br />
-            <br />
-        </div>
+                                    <TableCell>
+                                        {emp.shifts && emp.shifts.length > 0 ? (
+                                            <List dense disablePadding>
+                                                {emp.shifts.map(shift => (
+                                                    <ListItem key={shift._id} disablePadding>
+                                                        <ListItemText
+                                                            primary={`${new Date(shift.date).toLocaleDateString('he-IL')} : ${shift.starting_hour} - ${shift.ending_hour}`}
+                                                            primaryTypographyProps={{ variant: 'body2' }}
+                                                        />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        ) : (
+                                            <Typography variant="body2" color="text.secondary">
+                                                No shifts
+                                            </Typography>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Paper>
+        </Container>
     )
 }
 

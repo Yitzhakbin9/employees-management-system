@@ -4,6 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  Container,
+  Paper,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box
+} from '@mui/material';
 
 
 const USERS_URL = 'http://localhost:3000/users';
@@ -34,37 +46,43 @@ const Users = () => {
 
 
   return (
-    <div style={{ border: '3px solid lightblue' }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <UserDetails />
-      <h1>Users Page (Managers)</h1>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Full name</th>
-            <th>Max actions</th>
-            <th>Actions left today</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {users.map(user => (
-            <tr key={user._id}>
-              <td>
-                {user.full_name}
-              </td>
-              <td>
-                {user.max_actions}
-              </td>
-              <td>
-                {user.actions_left_today}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <br />
-      <br />
-    </div>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Users (Managers)
+        </Typography>
+
+        <TableContainer sx={{ mt: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: 'primary.main' }}>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Full Name</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Max Actions</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions Left Today</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {users.map((user, index) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    '&:nth-of-type(odd)': { bgcolor: 'action.hover' },
+                    '&:hover': { bgcolor: 'action.selected' }
+                  }}
+                >
+                  <TableCell>{user.full_name}</TableCell>
+                  <TableCell>{user.max_actions}</TableCell>
+                  <TableCell>{user.actions_left_today}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </Container>
   )
 }
 

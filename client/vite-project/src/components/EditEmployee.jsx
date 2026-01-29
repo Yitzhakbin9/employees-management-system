@@ -3,6 +3,29 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Divider,
+  Alert
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const EMPLOYEES_URL = 'http://localhost:3000/employees';
 const DEPARTMENT_URL = 'http://localhost:3000/departments';
@@ -90,7 +113,7 @@ const EditEmployee = () => {
     const updatedEmployee = {
       ...employee,
       department_id: chosenDepartmentID || employee.department_id
-    }; // if the user didn't change the department, we send the original department
+    };
 
     try {
       const { data } = await axios.put(`${EMPLOYEES_URL}/${id}`, updatedEmployee, {
@@ -117,7 +140,6 @@ const EditEmployee = () => {
     const shiftObj = shiftsCombo.find(
       shift => shift._id === selected
     );
-    // console.log("shiftObj" , shiftObj);
     setSelectedShift(shiftObj)
   }
 
@@ -144,86 +166,301 @@ const EditEmployee = () => {
 
 
   return (
-    <div style={{ border: '3px solid blue' }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <UserDetails />
-      <h1>Edit Employee Page</h1>
 
-      <form onSubmit={handleSubmit}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Edit Employee
+        </Typography>
 
-        <br />
-        Employee ID: <input type="text" value={id} readOnly /><br />
-        First Name: <input onChange={(e) => setEmployee({ ...employee, first_name: e.target.value })} type="text" value={employee.first_name} /> <br />
-        Last Name: <input onChange={(e) => setEmployee({ ...employee, last_name: e.target.value })} type="text" value={employee.last_name} /> <br />
-        Start Year: <input onChange={(e) => setEmployee({ ...employee, start_year: +e.target.value })} type="text" value={employee.start_year} /> <br />
-        Department Name: <input type="text" value={userDepartment} readOnly /> <br />
-        <br />
-        Change employee's department :
-        <select vlaue={chosenDepartmentID} onChange={handleDepartmentOnChange} name="department" id="department">
-          <option value="">Department</option>
-          {
-            departments.map((dep) => <option key={dep._id} value={dep._id}>{dep.department_name}</option>)
-          }
-        </select>
-        <br />
-        <br />
-        <br />
-        <button type='submit'>Update</button>
-      </form>
-      <br /> <br /> <br />
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <TextField
+            fullWidth
+            label="Employee ID"
+            variant="outlined"
+            margin="normal"
+            value={id}
+            disabled
+          />
 
+          <TextField
+            fullWidth
+            label="First Name"
+            variant="outlined"
+            margin="normal"
+            value={employee.first_name}
+            onChange={(e) => setEmployee({ ...employee, first_name: e.target.value })}
+            required
+          />
 
-      <select onChange={handleShiftOnChange} name="shifts" id="shifts">
-        <option value="shifts">shifts</option>
-        {
-          shiftsCombo.map((shift) =>
-            <option key={shift._id} value={shift._id}>
-              {`${new Date(shift.date).toLocaleDateString('he-IL')} :  ${shift.starting_hour} - ${shift.ending_hour}`}
-            </option>
-          )
+          <TextField
+            fullWidth
+            label="Last Name"
+            variant="outlined"
+            margin="normal"
+            value={employee.last_name}
+            onChange={(e) => setEmployee({ ...employee, last_name: e.target.value })}
+            required
+          />
 
-        }
-      </select>
+          <TextField
+            fullWidth
+            label="Start Year"
+            type="number"
+            variant="outlined"
+            margin="normal"
+            value={employee.start_year}
+            onChange={(e) => setEmployee({ ...employee, start_year: +e.target.value })}
+            required
+          />
 
+          <TextField
+            fullWidth
+            label="Current Department"
+            variant="outlined"
+            margin="normal"
+            value={userDepartment}
+            disabled
+          />
 
-      <button onClick={handleRegisterClick}>Register to shift</button>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Change Department</InputLabel>
+            <Select
+              label="Change Department"
+              value={chosenDepartmentID}
+              onChange={handleDepartmentOnChange}
+            >
+              <MenuItem value="">Select Department</MenuItem>
+              {departments.map((dep) => (
+                <MenuItem key={dep._id} value={dep._id}>
+                  {dep.department_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
+          <Box sx={{ mt: 3 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              startIcon={<SaveIcon />}
+              fullWidth
+            >
+              Update Employee
+            </Button>
+          </Box>
+        </Box>
 
+        <Divider sx={{ my: 4 }} />
 
+        <Typography variant="h5" gutterBottom>
+          Assign Shift
+        </Typography>
 
-      <h2>Employee's shifts</h2>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Starting hour</th>
-            <th>Ending hour</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            employeeShifts.map(shift => (
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel>Select Shift</InputLabel>
+            <Select
+              label="Select Shift"
+              onChange={handleShiftOnChange}
+            >
+              <MenuItem value="">Select Shift</MenuItem>
+              {shiftsCombo.map((shift) => (
+                <MenuItem key={shift._id} value={shift._id}>
+                  {`${new Date(shift.date).toLocaleDateString('he-IL')} : ${shift.starting_hour} - ${shift.ending_hour}`}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-              <tr key={shift._id}>
-                <td> {new Date(shift.shift.date).toLocaleDateString('he-IL')}</td>
-                <td> {shift.shift.starting_hour}</td>
-                <td> {shift.shift.ending_hour}</td>
-              </tr>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={handleRegisterClick}
+            sx={{ minWidth: 200 }}
+          >
+            Register
+          </Button>
+        </Box>
 
-            ))
-          }
-        </tbody>
-      </table>
+        <Divider sx={{ my: 4 }} />
 
+        <Typography variant="h5" gutterBottom>
+          Employee's Shifts
+        </Typography>
 
-      <br />
-      <br />
-      <button onClick={handleDeleteClick}>Delete Employee</button> (Cannot be undone !)
+        <TableContainer sx={{ mt: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ bgcolor: 'primary.main' }}>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Starting Hour</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Ending Hour</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {employeeShifts.map((shift, index) => (
+                <TableRow
+                  key={shift._id}
+                  sx={{
+                    '&:nth-of-type(odd)': { bgcolor: 'action.hover' },
+                    '&:hover': { bgcolor: 'action.selected' }
+                  }}
+                >
+                  <TableCell>{new Date(shift.shift.date).toLocaleDateString('he-IL')}</TableCell>
+                  <TableCell>{shift.shift.starting_hour}</TableCell>
+                  <TableCell>{shift.shift.ending_hour}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <br />
-      <br />
-      <br />
-    </div>
+        <Divider sx={{ my: 4 }} />
+
+        <Alert severity="warning" sx={{ mb: 2 }}>
+          Warning: Deleting an employee cannot be undone!
+        </Alert>
+
+        <Button
+          variant="contained"
+          color="error"
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteClick}
+          fullWidth
+        >
+          Delete Employee
+        </Button>
+      </Paper>
+    </Container>
   )
 }
 
 export default EditEmployee
+
+//   }
+
+
+// const handleDepartmentOnChange = (e) => {
+//   const chosenDep = departments.find(dep => (dep._id === e.target.value))
+//   setChosenDepartmentID(chosenDep._id)
+// }
+
+// const handleShiftOnChange = (e) => {
+//   const selected = e.target.value
+//   const shiftObj = shiftsCombo.find(
+//     shift => shift._id === selected
+//   );
+//   // console.log("shiftObj" , shiftObj);
+//   setSelectedShift(shiftObj)
+// }
+
+// const handleRegisterClick = async () => {
+//   const { data } = await axios.post(EMPLOYEE_SHIFTS, { employee_id: id, shift_id: selectedShift._id }, {
+//     headers: { 'x-access-token': token },
+//   });
+//   dispatch({ type: 'ACTIONS' });
+//   alert("Employee added succefully!")
+// }
+
+// const handleDeleteClick = async () => {
+//   try {
+//     const { data } = await axios.delete(`${EMPLOYEES_URL}/${id}`, {
+//       headers: { 'x-access-token': token },
+//     });
+//     console.log(data)
+//     alert("Employee deleted succefully!")
+//     navigate('/employees')
+//   } catch (err) {
+//     console.log("Failed to delete employee: ", err)
+//   }
+// }
+
+
+// return (
+//   <div style={{ border: '3px solid blue' }}>
+//     <UserDetails />
+//     <h1>Edit Employee Page</h1>
+
+//     <form onSubmit={handleSubmit}>
+
+//       <br />
+//       Employee ID: <input type="text" value={id} readOnly /><br />
+//       First Name: <input onChange={(e) => setEmployee({ ...employee, first_name: e.target.value })} type="text" value={employee.first_name} /> <br />
+//       Last Name: <input onChange={(e) => setEmployee({ ...employee, last_name: e.target.value })} type="text" value={employee.last_name} /> <br />
+//       Start Year: <input onChange={(e) => setEmployee({ ...employee, start_year: +e.target.value })} type="text" value={employee.start_year} /> <br />
+//       Department Name: <input type="text" value={userDepartment} readOnly /> <br />
+//       <br />
+//       Change employee's department :
+//       <select vlaue={chosenDepartmentID} onChange={handleDepartmentOnChange} name="department" id="department">
+//         <option value="">Department</option>
+//         {
+//           departments.map((dep) => <option key={dep._id} value={dep._id}>{dep.department_name}</option>)
+//         }
+//       </select>
+//       <br />
+//       <br />
+//       <br />
+//       <button type='submit'>Update</button>
+//     </form>
+//     <br /> <br /> <br />
+
+
+//     <select onChange={handleShiftOnChange} name="shifts" id="shifts">
+//       <option value="shifts">shifts</option>
+//       {
+//         shiftsCombo.map((shift) =>
+//           <option key={shift._id} value={shift._id}>
+//             {`${new Date(shift.date).toLocaleDateString('he-IL')} :  ${shift.starting_hour} - ${shift.ending_hour}`}
+//           </option>
+//         )
+
+//       }
+//     </select>
+
+
+//     <button onClick={handleRegisterClick}>Register to shift</button>
+
+
+
+
+//     <h2>Employee's shifts</h2>
+//     <table border="1" cellPadding="8">
+//       <thead>
+//         <tr>
+//           <th>Date</th>
+//           <th>Starting hour</th>
+//           <th>Ending hour</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//         {
+//           employeeShifts.map(shift => (
+
+//             <tr key={shift._id}>
+//               <td> {new Date(shift.shift.date).toLocaleDateString('he-IL')}</td>
+//               <td> {shift.shift.starting_hour}</td>
+//               <td> {shift.shift.ending_hour}</td>
+//             </tr>
+
+//           ))
+//         }
+//       </tbody>
+//     </table>
+
+
+//     <br />
+//     <br />
+//     <button onClick={handleDeleteClick}>Delete Employee</button> (Cannot be undone !)
+
+//     <br />
+//     <br />
+//     <br />
+//   </div>
+// )
+// }
+
+// export default EditEmployee

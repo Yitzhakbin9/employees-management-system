@@ -3,6 +3,18 @@ import UserDetails from './UserDetails'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import {
+    Container,
+    Paper,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Box
+} from '@mui/material';
 
 
 const SHIFTS_URL = 'http://localhost:3000/shifts';
@@ -33,40 +45,49 @@ const Shifts = () => {
 
 
     return (
-        <div style={{ border: '3px solid lightgreen' }}>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
             <UserDetails />
-            <h1>Shifts Page</h1>
 
-            <table border="1" cellPadding="8">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Start</th>
-                        <th>End</th>
-                    </tr>
-                </thead>
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Shifts
+                </Typography>
 
-                <tbody>
-                    {shifts.map(shift => (
-                        <tr key={shift._id}>
-                            <td>
-                                {new Date(shift.date).toLocaleDateString()}
-                            </td>
-                            <td>
-                                {shift.starting_hour}
-                            </td>
-                            <td>
-                                {shift.ending_hour}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                <TableContainer sx={{ mt: 3 }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{ bgcolor: 'primary.main' }}>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date</TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Start Time</TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>End Time</TableCell>
+                            </TableRow>
+                        </TableHead>
 
-            <br />
-            <br />
-            <br />
-        </div>
+                        <TableBody>
+                            {shifts.map((shift, index) => (
+                                <TableRow
+                                    key={shift._id}
+                                    sx={{
+                                        '&:nth-of-type(odd)': { bgcolor: 'action.hover' },
+                                        '&:hover': { bgcolor: 'action.selected' }
+                                    }}
+                                >
+                                    <TableCell>
+                                        {new Date(shift.date).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell>
+                                        {shift.starting_hour}
+                                    </TableCell>
+                                    <TableCell>
+                                        {shift.ending_hour}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Paper>
+        </Container>
     )
 }
 

@@ -3,6 +3,19 @@ import UserDetails from './UserDetails'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import {
+    Container,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
 
 
 const SHIFTS_URL = 'http://localhost:3000/shifts';
@@ -80,47 +93,85 @@ const Shifts = () => {
 
 
     return (
-        <div style={{ border: '3px solid lightgreen' }}>
+        <Container maxWidth="md" sx={{ py: 4 }}>
             <UserDetails />
-            <h1>Create new shift</h1>
 
-            <form onSubmit={handleSubmit}>
-                <br />
-                Starting hour :  <select onChange={(e) => (setNewShift({ ...newShift, starting_hour: e.target.value }))}>
-                    <option>-</option>
-                    {
-                        hoursOptions.map((h) => <option value={h}>{h}</option>)
-                    } </select>
-                <br />
-                Ending hour :  <select onChange={(e) => (setNewShift({ ...newShift, ending_hour: e.target.value }))}>
-                    <option>-</option>
-                    {
-                        hoursOptions.map((h) => <option value={h}>{h}</option>)
-                    } </select>
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Create New Shift
+                </Typography>
 
-                <br />
-                Date : <input
-                    type="date"
-                    value={newShift.date}
-                    onChange={(e) => setNewShift({ ...newShift, date: e.target.value })}
-                />
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <FormControl fullWidth margin="normal" required>
+                        <InputLabel>Starting Hour</InputLabel>
+                        <Select
+                            label="Starting Hour"
+                            value={newShift.starting_hour}
+                            onChange={(e) => setNewShift({ ...newShift, starting_hour: e.target.value })}
+                        >
+                            <MenuItem value="">-</MenuItem>
+                            {hoursOptions.map((h) => (
+                                <MenuItem key={h} value={h}>{h}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <br />
-                Employees :   <select onChange={(e) => setChosenEmployee({ id: e.target.value })}>
-                    <option value="">Choose Employee</option>
-                    {employees.map(emp => (
-                        <option key={emp._id} value={emp._id}> {emp.first_name} {emp.last_name} </option>
-                    ))}
-                </select>
+                    <FormControl fullWidth margin="normal" required>
+                        <InputLabel>Ending Hour</InputLabel>
+                        <Select
+                            label="Ending Hour"
+                            value={newShift.ending_hour}
+                            onChange={(e) => setNewShift({ ...newShift, ending_hour: e.target.value })}
+                        >
+                            <MenuItem value="">-</MenuItem>
+                            {hoursOptions.map((h) => (
+                                <MenuItem key={h} value={h}>{h}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <br />
-                <br />
-                <button type='submit'>Save</button>
-            </form>
+                    <TextField
+                        fullWidth
+                        label="Date"
+                        type="date"
+                        variant="outlined"
+                        margin="normal"
+                        value={newShift.date}
+                        onChange={(e) => setNewShift({ ...newShift, date: e.target.value })}
+                        InputLabelProps={{ shrink: true }}
+                        required
+                    />
 
-            <br />
-            <br />
-        </div>
+                    <FormControl fullWidth margin="normal" required>
+                        <InputLabel>Employee</InputLabel>
+                        <Select
+                            label="Employee"
+                            value={chosenEmployee.id}
+                            onChange={(e) => setChosenEmployee({ id: e.target.value })}
+                        >
+                            <MenuItem value="">Choose Employee</MenuItem>
+                            {employees.map(emp => (
+                                <MenuItem key={emp._id} value={emp._id}>
+                                    {emp.first_name} {emp.last_name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    <Box sx={{ mt: 3 }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<SaveIcon />}
+                            fullWidth
+                        >
+                            Save
+                        </Button>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
     )
 }
 

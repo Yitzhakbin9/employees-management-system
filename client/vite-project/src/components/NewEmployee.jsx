@@ -3,6 +3,20 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import {
+    Container,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const EMPLOYEES_URL = 'http://localhost:3000/employees';
 const DEPARTMENT_URL = 'http://localhost:3000/departments';
@@ -21,7 +35,7 @@ const Employee = () => {
             last_name: '',
             start_year: 2000,
             department_id: '',
-            role: 'employee' // we can only add employee. manager should be added directly in the DB
+            role: 'employee'
         })
 
     useEffect(() => {
@@ -57,31 +71,84 @@ const Employee = () => {
     }
 
     return (
-        <div style={{ border: '3px solid green' }}>
+        <Container maxWidth="md" sx={{ py: 4 }}>
             <UserDetails />
-            <h1>Add new employee</h1>
 
-            <form onSubmit={handleSubmit}>
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Add New Employee
+                </Typography>
 
-                <br />
-                First Name: <input onChange={(e) => setEmployee({ ...employee, first_name: e.target.value })} type="text" value={employee.first_name} /> <br />
-                Last Name: <input onChange={(e) => setEmployee({ ...employee, last_name: e.target.value })} type="text" value={employee.last_name} /> <br />
-                Start Year: <input onChange={(e) => setEmployee({ ...employee, start_year: +e.target.value })} type="text" value={employee.start_year} /> <br />
-                Department :  <select value={departments} onChange={handleOnChange} name="department" id="department">
-                    <option value="Department">Department</option>
-                    {
-                        departments.map((dep) => <option value={dep.department_name}>{dep.department_name}</option>)
-                    }
-                </select>
-                <br />
-                <br />
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <TextField
+                        fullWidth
+                        label="First Name"
+                        variant="outlined"
+                        margin="normal"
+                        value={employee.first_name}
+                        onChange={(e) => setEmployee({ ...employee, first_name: e.target.value })}
+                        required
+                    />
 
-                <br />
-                <button type='submit'>Save</button>
-            </form>
-            <br />
-            <button onClick={() => navigate('/employees')}>Cancel</button>
-        </div>
+                    <TextField
+                        fullWidth
+                        label="Last Name"
+                        variant="outlined"
+                        margin="normal"
+                        value={employee.last_name}
+                        onChange={(e) => setEmployee({ ...employee, last_name: e.target.value })}
+                        required
+                    />
+
+                    <TextField
+                        fullWidth
+                        label="Start Year"
+                        type="number"
+                        variant="outlined"
+                        margin="normal"
+                        value={employee.start_year}
+                        onChange={(e) => setEmployee({ ...employee, start_year: +e.target.value })}
+                        required
+                    />
+
+                    <FormControl fullWidth margin="normal" required>
+                        <InputLabel>Department</InputLabel>
+                        <Select
+                            label="Department"
+                            onChange={handleOnChange}
+                        >
+                            <MenuItem value="">Choose Department</MenuItem>
+                            {departments.map((dep) => (
+                                <MenuItem key={dep._id} value={dep.department_name}>
+                                    {dep.department_name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+                    <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<SaveIcon />}
+                            fullWidth
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            startIcon={<CancelIcon />}
+                            fullWidth
+                            onClick={() => navigate('/employees')}
+                        >
+                            Cancel
+                        </Button>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
     )
 }
 

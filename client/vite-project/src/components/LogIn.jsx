@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+    Container,
+    Paper,
+    TextField,
+    Button,
+    Typography,
+    Box,
+    Alert
+} from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 const URL = 'http://localhost:3000/auth/login';
 
@@ -10,11 +20,13 @@ const LogIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [user, setUser] = useState({ username: '', email: '' })
+    const [error, setError] = useState('');
 
 
     const handleSubmit = async (e) => {
 
         e.preventDefault()
+        setError('');
         try {
             const resp = await fetch(URL, {
                 method: 'POST',
@@ -24,34 +36,79 @@ const LogIn = () => {
 
             const data = await resp.json();
             console.log('data from login:', data);
-            sessionStorage.token = data.token; // short for: sessionStorage.setItem('token', data.token);
+            sessionStorage.token = data.token;
             dispatch({ type: 'USER_NAME', payload: user.username });
             navigate('/actionsPage');
 
         } catch (error) {
-            alert('Invalid credentials, please try again.');
+            setError('Invalid credentials, please try again.');
             console.error('Login failed:', error);
         }
     }
 
     return (
+        <Container maxWidth="sm">
+            <Box sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        mb: 3
+                    }}>
+                        <LoginIcon color="primary" sx={{ fontSize: 48, mb: 2 }} />
+                        <Typography variant="h4" component="h1" gutterBottom>
+                            Login
+                        </Typography>
+                    </Box>
 
-        <div style={{ border: '3px solid Crimson' }}>
+                    {error && (
+                        <Alert severity="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
 
-            <form onSubmit={handleSubmit}>
-                <h1>Login</h1>
+                    <Box component="form" onSubmit={handleSubmit}>
+                        <TextField
+                            fullWidth
+                            label="Username"
+                            variant="outlined"
+                            margin="normal"
+                            value={user.username}
+                            onChange={e => setUser({ ...user, username: e.target.value })}
+                            required
+                        />
 
-                <br />
-                Username: <input onChange={e => setUser({ ...user, username: e.target.value })} type="text" /> <br />
-                Email: <input onChange={e => setUser({ ...user, email: e.target.value })} type="text" /> <br />
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            variant="outlined"
+                            margin="normal"
+                            value={user.email}
+                            onChange={e => setUser({ ...user, email: e.target.value })}
+                            required
+                        />
 
-                <br />
-
-                <button type="submit">Login</button>
-            </form>
-
-
-        </div>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            size="large"
+                            sx={{ mt: 3 }}
+                            startIcon={<LoginIcon />}
+                        >
+                            Login
+                        </Button>
+                    </Box>
+                </Paper>
+            </Box>
+        </Container>
     )
 }
 

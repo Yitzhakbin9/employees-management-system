@@ -4,6 +4,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import {
+    Container,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    Box
+} from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const DEPARTMENT_URL = 'http://localhost:3000/departments';
 
@@ -33,21 +43,48 @@ const NewDepartment = () => {
 
 
     return (
-        <div style={{ border: '3px solid cyan' }}>
+        <Container maxWidth="md" sx={{ py: 4 }}>
             <UserDetails />
-            <h1>Add new department</h1>
 
-            <form onSubmit={handleSubmit}>
-                <br />
-                Department Name: <input onChange={e => setDepartment({ ...department, department_name: e.target.value })} type="text" /> <br />
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Add New Department
+                </Typography>
 
-                <button type="submit">Save Department</button>
-                <br />
-            </form>
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <TextField
+                        fullWidth
+                        label="Department Name"
+                        variant="outlined"
+                        margin="normal"
+                        value={department.department_name}
+                        onChange={e => setDepartment({ ...department, department_name: e.target.value })}
+                        required
+                    />
 
-            <button onClick={() => navigate('/actionsPage')}>Cancel</button>
-
-        </div>
+                    <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<SaveIcon />}
+                            fullWidth
+                        >
+                            Save Department
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            startIcon={<CancelIcon />}
+                            fullWidth
+                            onClick={() => navigate('/actionsPage')}
+                        >
+                            Cancel
+                        </Button>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
     )
 }
 
