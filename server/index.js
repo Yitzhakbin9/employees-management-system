@@ -31,10 +31,10 @@ app.use('/employeeShifts', employeeShiftRouter);
 
 
 
-console.log('Connectd')
+connectDB();
+
 app.listen(PORT, () => {
   console.log(`app is listening at http://localhost:${PORT}`);
-  connectDB();
 });
 
 
