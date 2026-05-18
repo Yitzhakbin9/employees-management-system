@@ -24,10 +24,7 @@ import {
     ListItemText
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
-
-const EMPLOYEE_DETAILS_URL = 'http://localhost:3000/employees/full-details';
-const DEPARTMENT_URL = 'http://localhost:3000/departments';
+import { API_URLS } from '../constants/api';
 
 
 const Employees = () => {
@@ -47,7 +44,7 @@ const Employees = () => {
 
             const token = sessionStorage.token;
 
-            const { data } = await axios.get(EMPLOYEE_DETAILS_URL, {
+            const { data } = await axios.get(API_URLS.employeeDetails, {
                 headers: { 'x-access-token': token },
             });
             console.log("Employees: ", data)
@@ -63,7 +60,7 @@ const Employees = () => {
 
         const fetchData = async () => {
             const token = sessionStorage.token;
-            const { data } = await axios.get(DEPARTMENT_URL, {
+            const { data } = await axios.get(API_URLS.departments, {
                 headers: { 'x-access-token': token },
             });
             console.log("Depratments: ", data)

@@ -5,6 +5,7 @@ import { Paper, Typography, Button, Box, Chip } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
+import { API_URLS } from '../constants/api';
 
 const UserDetails = () => {
   const userDetails = useSelector((state) => state.userDetails);
@@ -14,7 +15,7 @@ const UserDetails = () => {
 
   const handleClick = async () => {
 
-    const resp = await fetch('http://localhost:3000/auth/logout', {
+    const resp = await fetch(`${API_URLS.auth}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

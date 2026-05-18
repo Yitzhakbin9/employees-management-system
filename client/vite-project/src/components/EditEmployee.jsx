@@ -26,12 +26,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
-const DEPARTMENT_URL = 'http://localhost:3000/departments';
-const SHIFTS_URL = 'http://localhost:3000/shifts';
-const EMPLOYEE_SHIFTS = 'http://localhost:3000/employeeShifts';
-const EMPLOYEES_SHIFTS_BY_ID_URL = 'http://localhost:3000/employeeShifts';
+import { API_URLS } from '../constants/api';
 
 const EditEmployee = () => {
 
@@ -59,7 +54,7 @@ const EditEmployee = () => {
   useEffect(() => {
 
     const fetchData = async () => {
-      const { data } = await axios.get(`${EMPLOYEES_URL}/${id}`, {
+      const { data } = await axios.get(`${API_URLS.employees}/${id}`, {
         headers: { 'x-access-token': token },
       });
       setEmployee(data)
@@ -71,7 +66,7 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(DEPARTMENT_URL, {
+      const { data } = await axios.get(API_URLS.departments, {
         headers: { 'x-access-token': token },
       });
       setDepartments(data);
@@ -82,7 +77,7 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(SHIFTS_URL, {
+      const { data } = await axios.get(API_URLS.shifts, {
         headers: { 'x-access-token': token },
       });
       setShiftsCombo(data);
@@ -92,7 +87,7 @@ const EditEmployee = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(`${EMPLOYEES_SHIFTS_BY_ID_URL}/${id}/shifts`, {
+      const { data } = await axios.get(`${API_URLS.employeeShifts}/${id}/shifts`, {
         headers: { 'x-access-token': token },
       });
       setEmployeeShifts(data);
@@ -116,7 +111,7 @@ const EditEmployee = () => {
     };
 
     try {
-      const { data } = await axios.put(`${EMPLOYEES_URL}/${id}`, updatedEmployee, {
+      const { data } = await axios.put(`${API_URLS.employees}/${id}`, updatedEmployee, {
         headers: { 'x-access-token': token },
       });
       dispatch({ type: 'ACTIONS' });
@@ -144,7 +139,7 @@ const EditEmployee = () => {
   }
 
   const handleRegisterClick = async () => {
-    const { data } = await axios.post(EMPLOYEE_SHIFTS, { employee_id: id, shift_id: selectedShift._id }, {
+    const { data } = await axios.post(API_URLS.employeeShifts, { employee_id: id, shift_id: selectedShift._id }, {
       headers: { 'x-access-token': token },
     });
     dispatch({ type: 'ACTIONS' });
@@ -153,7 +148,7 @@ const EditEmployee = () => {
 
   const handleDeleteClick = async () => {
     try {
-      const { data } = await axios.delete(`${EMPLOYEES_URL}/${id}`, {
+      const { data } = await axios.delete(`${API_URLS.employees}/${id}`, {
         headers: { 'x-access-token': token },
       });
       console.log(data)

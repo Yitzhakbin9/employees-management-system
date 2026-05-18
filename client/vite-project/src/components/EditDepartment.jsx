@@ -20,9 +20,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-
-const DEPARTMENT_URL = 'http://localhost:3000/departments';
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
+import { API_URLS } from '../constants/api';
 
 
 const EditDepartment = () => {
@@ -39,7 +37,7 @@ const EditDepartment = () => {
     useEffect(() => {
         const fetchData = async () => {
             console.log("id: ", id)
-            const { data } = await axios.get(`${DEPARTMENT_URL}/${id}`, {
+            const { data } = await axios.get(`${API_URLS.departments}/${id}`, {
                 headers: { 'x-access-token': token },
             });
             console.log("department: ", data)
@@ -51,7 +49,7 @@ const EditDepartment = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEES_URL, {
+            const { data } = await axios.get(API_URLS.employees, {
                 headers: { 'x-access-token': token },
             });
             console.log("employees: ", data)
@@ -70,7 +68,7 @@ const EditDepartment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.put(`${DEPARTMENT_URL}/${id}`, department, {
+            const { data } = await axios.put(`${API_URLS.departments}/${id}`, department, {
                 headers: { 'x-access-token': token },
             });
             console.log("updated department details: ", department)
@@ -86,7 +84,7 @@ const EditDepartment = () => {
 
     const handleDeleteClick = async () => {
         try {
-            const { data } = await axios.delete(`${DEPARTMENT_URL}/${id}`, {
+            const { data } = await axios.delete(`${API_URLS.departments}/${id}`, {
                 headers: { 'x-access-token': token },
             });
             console.log("updated department details: ", data)
@@ -100,7 +98,7 @@ const EditDepartment = () => {
 
     const handleAddClick = async () => {
         try {
-            const { data } = await axios.put(`${EMPLOYEES_URL}/${selectedEmployee}`, { department_id: id }, {
+            const { data } = await axios.put(`${API_URLS.employees}/${selectedEmployee}`, { department_id: id }, {
                 headers: { 'x-access-token': token },
             });
             dispatch({ type: 'ACTIONS' });

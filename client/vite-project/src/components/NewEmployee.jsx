@@ -17,9 +17,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
-const DEPARTMENT_URL = 'http://localhost:3000/departments';
+import { API_URLS } from '../constants/api';
 
 
 
@@ -40,7 +38,7 @@ const Employee = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(DEPARTMENT_URL, {
+            const { data } = await axios.get(API_URLS.departments, {
                 headers: { 'x-access-token': token },
             });
             setDepartments(data);
@@ -52,7 +50,7 @@ const Employee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${EMPLOYEES_URL}/`, employee, {
+            const { data } = await axios.post(`${API_URLS.employees}/`, employee, {
                 headers: { 'x-access-token': token },
             });
             console.log("new employee: ", data)

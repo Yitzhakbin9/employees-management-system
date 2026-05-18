@@ -16,11 +16,7 @@ import {
     Box
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-
-
-const SHIFTS_URL = 'http://localhost:3000/shifts';
-const EMPLOYEES_URL = 'http://localhost:3000/employees';
-const EMPLOYEE_SHIFTS_URL = 'http://localhost:3000/employeeShifts';
+import { API_URLS } from '../constants/api';
 
 
 const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
@@ -39,7 +35,7 @@ const Shifts = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(EMPLOYEES_URL, {
+            const { data } = await axios.get(API_URLS.employees, {
                 headers: { 'x-access-token': token },
             });
             console.log("employees: ", data)
@@ -51,7 +47,7 @@ const Shifts = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(SHIFTS_URL, {
+            const { data } = await axios.get(API_URLS.shifts, {
                 headers: { 'x-access-token': token },
             });
             console.log("shifts: ", data)
@@ -65,7 +61,7 @@ const Shifts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${SHIFTS_URL}/`, newShift, {
+            const { data } = await axios.post(`${API_URLS.shifts}/`, newShift, {
                 headers: { 'x-access-token': token },
             });
             console.log("new shift: ", data)
@@ -78,7 +74,7 @@ const Shifts = () => {
                 "shift_id": id
             }
 
-            const { data: employeeShiftData } = await axios.post(`${EMPLOYEE_SHIFTS_URL}/`, employeeShift, {
+            const { data: employeeShiftData } = await axios.post(`${API_URLS.employeeShifts}/`, employeeShift, {
                 headers: { 'x-access-token': token },
             });
             console.log("new employee shift: ", employeeShiftData)

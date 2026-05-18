@@ -15,9 +15,7 @@ import {
     TableRow,
     Box
 } from '@mui/material';
-
-
-const SHIFTS_URL = 'http://localhost:3000/shifts';
+import { API_URLS } from '../constants/api';
 
 
 const hoursOptions = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
@@ -32,7 +30,7 @@ const Shifts = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(SHIFTS_URL, {
+            const { data } = await axios.get(API_URLS.shifts, {
                 headers: { 'x-access-token': token },
             });
             console.log("shifts: ", data)

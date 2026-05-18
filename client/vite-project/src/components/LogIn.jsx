@@ -11,8 +11,7 @@ import {
     Alert
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-
-const URL = 'http://localhost:3000/auth/login';
+import { API_URLS } from '../constants/api';
 
 const LogIn = () => {
 
@@ -28,7 +27,7 @@ const LogIn = () => {
         e.preventDefault()
         setError('');
         try {
-            const resp = await fetch(URL, {
+            const resp = await fetch(`${API_URLS.auth}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user),

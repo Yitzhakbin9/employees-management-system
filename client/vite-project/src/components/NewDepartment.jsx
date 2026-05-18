@@ -14,8 +14,7 @@ import {
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-
-const DEPARTMENT_URL = 'http://localhost:3000/departments';
+import { API_URLS } from '../constants/api';
 
 const NewDepartment = () => {
 
@@ -28,7 +27,7 @@ const NewDepartment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${DEPARTMENT_URL}/`, department, {
+            const { data } = await axios.post(`${API_URLS.departments}/`, department, {
                 headers: { 'x-access-token': token },
             });
             console.log("new department: ", data)

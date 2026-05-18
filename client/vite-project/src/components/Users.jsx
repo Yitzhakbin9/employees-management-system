@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URLS } from '../constants/api';
 import {
   Container,
   Paper,
@@ -18,9 +19,6 @@ import {
 } from '@mui/material';
 
 
-const USERS_URL = 'http://localhost:3000/users';
-
-
 
 const Users = () => {
 
@@ -33,7 +31,7 @@ const Users = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(USERS_URL, {
+      const { data } = await axios.get(API_URLS.users, {
         headers: { 'x-access-token': token },
       });
       console.log("usesrs: ", data)
