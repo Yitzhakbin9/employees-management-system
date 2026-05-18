@@ -91,7 +91,7 @@ const EditDepartment = () => {
             });
             console.log("updated department details: ", data)
             alert("Department updated succefully!")
-            navigate('/employees')
+            navigate('/actionsPage')
         } catch (err) {
             alert("Failure")
             console.log("Failed to updated: ", err)
