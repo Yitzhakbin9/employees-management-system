@@ -38,6 +38,7 @@ const LogIn = () => {
             const data = await resp.json();
             console.log('data from login:', data);
             sessionStorage.token = data.token;
+            sessionStorage.userName = trimmedUsername;
             dispatch({ type: 'USER_NAME', payload: trimmedUsername });
             navigate('/actionsPage');
 

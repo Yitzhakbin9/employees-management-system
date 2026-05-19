@@ -13,7 +13,7 @@ const UserDetails = () => {
   const dispatch = useDispatch();
 
 
-  const handleClick = async () => {
+  const handleLogoutClick = async () => {
 
     const resp = await fetch(`${API_URLS.auth}/logout`, {
       method: 'POST',
@@ -23,6 +23,7 @@ const UserDetails = () => {
     });
 
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userName');
     dispatch({ type: 'LOGOUT' });
     navigate('/login')
   }
@@ -70,7 +71,7 @@ const UserDetails = () => {
         <Button
           variant="contained"
           size="small"
-          onClick={handleClick}
+          onClick={handleLogoutClick}
           startIcon={<LogoutIcon />}
           sx={{ bgcolor: 'rgba(255,255,255,0.2)', '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }}
         >

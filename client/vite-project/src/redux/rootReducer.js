@@ -1,5 +1,11 @@
+// When we refresh the page, we want to keep the user name in the state, 
+// so we check if there is a user name in sessionStorage and use it as the initial 
+// state. If there is no user name in sessionStorage, we use 'initial name' 
+// as the default value.
+const savedUserName = sessionStorage.getItem('userName');
+
 const initialState = {
-  userDetails: { name: 'initial name', actionsLeft: 100 },
+  userDetails: { name: savedUserName || 'initial name', actionsLeft: 100 },
 };
 
 const userDetailsReducer = (state = initialState, action) => {
