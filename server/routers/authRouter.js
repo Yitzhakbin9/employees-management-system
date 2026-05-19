@@ -10,7 +10,8 @@ const FILE = 'usersActions.json';
 
 router.post('/login', (req, res) => {
 
-  const { username, email } = req.body;
+  const username = req.body.username?.trim();
+  const { email } = req.body;
 
   if (username === process.env.USER_NAME && email === process.env.EMAIL) {
     const userId = process.env.ID; // In real life you would use a database to get the user ID based on the username/email

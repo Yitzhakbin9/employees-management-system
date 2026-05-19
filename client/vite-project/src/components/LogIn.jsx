@@ -26,17 +26,19 @@ const LogIn = () => {
 
         e.preventDefault()
         setError('');
+        const trimmedUsername = user.username.trim();
+
         try {
             const resp = await fetch(`${API_URLS.auth}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(user),
+                body: JSON.stringify({ ...user, username: trimmedUsername }),
             });
 
             const data = await resp.json();
             console.log('data from login:', data);
             sessionStorage.token = data.token;
-            dispatch({ type: 'USER_NAME', payload: user.username });
+            dispatch({ type: 'USER_NAME', payload: trimmedUsername });
             navigate('/actionsPage');
 
         } catch (error) {
