@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, Typography, Button, Box, Chip } from '@mui/material';
@@ -11,11 +11,15 @@ const UserDetails = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoggingOutRef = useRef(false); // useRef is a React hook that gives you a value that survives re-renders, but changing it does not cause a re-render.
 
 
-  const handleLogoutClick = async () => {
 
-    const resp = await fetch(`${API_URLS.auth}/logout`, {
+
+  const logoutUser = async () => {
+    isLoggingOutRef.current = true;
+
+    await fetch(`${API_URLS.auth}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -28,6 +32,21 @@ const UserDetails = () => {
     dispatch({ type: 'LOGOUT' });
     navigate('/login')
   }
+
+  const handleLogoutClick = async () => {
+    await logoutUser();
+  }
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem('token')
+      && userDetails.actionsLeft <= 0
+      && !isLoggingOutRef.current
+    ) {
+      alert("No more actions left! Logging out...");
+      logoutUser();
+    }
+  }, [userDetails.actionsLeft]);
 
 
 
@@ -44,7 +63,7 @@ const UserDetails = () => {
     >
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <PersonIcon sx={{ mr: 1 }} />
-        <Typography variant="h6">User Details</Typography>
+        <Typography variant="h6">Welcome !</Typography>
       </Box>
 
       <Box sx={{ mb: 2 }}>

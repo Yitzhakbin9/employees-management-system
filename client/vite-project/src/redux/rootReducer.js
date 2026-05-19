@@ -5,7 +5,7 @@ const getInitialState = () => {
   return {
     userDetails: {
       name: savedUserName || 'initial name',
-      actionsLeft: savedActionsLeft === null ? 100 : Number(savedActionsLeft),
+      actionsLeft: savedActionsLeft === null ? 10 : Number(savedActionsLeft),
     },
   };
 };
@@ -21,7 +21,6 @@ const userDetailsReducer = (state = getInitialState(), action) => {
 
     case 'ACTIONS': {
       if (state.userDetails.actionsLeft <= 0) {
-        alert("No more actions left!")
         return {
           ...state,
           userDetails: { ...state.userDetails, actionsLeft: 0 },
