@@ -38,7 +38,6 @@ const Users = () => {
       setUsers(data)
     };
     fetchData();
-    dispatch({ type: 'ACTIONS' });
   }, []);
 
 

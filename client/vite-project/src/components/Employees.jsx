@@ -53,7 +53,6 @@ const Employees = () => {
             setFilteredByDep(data)
         };
         fetchData();
-        dispatch({ type: 'ACTIONS' });
     }, []);
 
     useEffect(() => {

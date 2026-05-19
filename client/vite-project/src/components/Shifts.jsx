@@ -37,8 +37,6 @@ const Shifts = () => {
             setShifts(data)
         };
         fetchData();
-        dispatch({ type: 'ACTIONS' });
-
     }, []);
 
 

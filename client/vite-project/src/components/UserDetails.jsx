@@ -24,6 +24,7 @@ const UserDetails = () => {
 
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('actionsLeft');
     dispatch({ type: 'LOGOUT' });
     navigate('/login')
   }

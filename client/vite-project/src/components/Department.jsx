@@ -43,7 +43,6 @@ const Department = () => {
             setDepartmentsFull(data);
         };
         fetchData();
-        dispatch({ type: 'ACTIONS' });
     }, []);
 
     return (

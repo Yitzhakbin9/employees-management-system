@@ -1,14 +1,16 @@
-// When we refresh the page, we want to keep the user name in the state, 
-// so we check if there is a user name in sessionStorage and use it as the initial 
-// state. If there is no user name in sessionStorage, we use 'initial name' 
-// as the default value.
-const savedUserName = sessionStorage.getItem('userName');
+const getInitialState = () => {
+  const savedUserName = sessionStorage.getItem('userName');
+  const savedActionsLeft = sessionStorage.getItem('actionsLeft');
 
-const initialState = {
-  userDetails: { name: savedUserName || 'initial name', actionsLeft: 100 },
+  return {
+    userDetails: {
+      name: savedUserName || 'initial name',
+      actionsLeft: savedActionsLeft === null ? 100 : Number(savedActionsLeft),
+    },
+  };
 };
 
-const userDetailsReducer = (state = initialState, action) => {
+const userDetailsReducer = (state = getInitialState(), action) => {
   switch (action.type) {
     case 'USER_NAME': {
       return {
@@ -18,7 +20,7 @@ const userDetailsReducer = (state = initialState, action) => {
     }
 
     case 'ACTIONS': {
-      if (state.userDetails.actionsLeft === 0) {
+      if (state.userDetails.actionsLeft <= 0) {
         alert("No more actions left!")
         return {
           ...state,
@@ -32,7 +34,7 @@ const userDetailsReducer = (state = initialState, action) => {
     }
 
     case 'LOGOUT': {
-      return initialState;
+      return getInitialState();
     }
 
     default:
