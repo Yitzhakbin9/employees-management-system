@@ -52,13 +52,22 @@ const Users = () => {
           Users (Managers)
         </Typography>
 
-        <TableContainer sx={{ mt: 3 }}>
+        <TableContainer
+          sx={{
+            mt: 3,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'divider',
+            overflow: 'hidden',
+            boxShadow: '0 8px 24px rgba(15, 23, 42, 0.08)',
+            backgroundColor: 'background.paper'
+          }}
+        >
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: 'primary.main' }}>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Full Name</TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Max Actions</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions Left Today</TableCell>
               </TableRow>
             </TableHead>
 
@@ -73,7 +82,6 @@ const Users = () => {
                 >
                   <TableCell>{user.full_name}</TableCell>
                   <TableCell>{user.max_actions}</TableCell>
-                  <TableCell>{user.actions_left_today}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
