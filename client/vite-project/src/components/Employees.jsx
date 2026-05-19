@@ -35,7 +35,7 @@ const Employees = () => {
 
     const [employees, setEmployees] = useState([])
     const [filteredByDep, setFilteredByDep] = useState([])
-    const [department, setDepartment] = useState([])
+    const [department, setDepartment] = useState('')
     const [departments, setDepartments] = useState([])
 
 
@@ -71,11 +71,16 @@ const Employees = () => {
 
 
     useEffect(() => {
+        if (department === '') {
+            setFilteredByDep(employees)
+            return;
+        }
+
         const filterByDepratment = employees.filter((employee) =>
             employee.department?.department_name === department
         )
         setFilteredByDep(filterByDepratment)
-    }, [department]);
+    }, [department, employees]);
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
